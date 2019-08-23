@@ -1,0 +1,9 @@
+*.bin
+*.img
+
+# avoid the diff of envs
+bochsrc
+
+#
+README-OLD.md
+img/
