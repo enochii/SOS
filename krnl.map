@@ -479,7 +479,7 @@ LOAD lib/orangescrt.a
                 [!provide]                        PROVIDE (_etext, .)
                 [!provide]                        PROVIDE (etext, .)
 
-.rodata         0x00000000000111a0     0x314b
+.rodata         0x00000000000111a0     0x3137
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata        0x00000000000111a0       0x47 kernel/start.o
  *fill*         0x00000000000111e7       0x19 
@@ -502,30 +502,30 @@ LOAD lib/orangescrt.a
  .rodata        0x0000000000012c0c      0x15c kernel/hd.o
  .rodata        0x0000000000012d68       0x6a kernel/klib.o
  *fill*         0x0000000000012dd2        0x2 
- .rodata        0x0000000000012dd4      0x36f kernel/welcome.o
- .rodata        0x0000000000013143       0x1e lib/syslog.o
- *fill*         0x0000000000013161        0x3 
- .rodata        0x0000000000013164       0xb1 mm/main.o
- *fill*         0x0000000000013215        0x3 
- .rodata        0x0000000000013218       0xe7 mm/forkexit.o
- *fill*         0x00000000000132ff        0x1 
- .rodata        0x0000000000013300       0xa4 mm/exec.o
- .rodata        0x00000000000133a4      0x2ce fs/main.o
- *fill*         0x0000000000013672        0x2 
- .rodata        0x0000000000013674      0x134 fs/open.o
- .rodata        0x00000000000137a8       0x60 fs/misc.o
- .rodata        0x0000000000013808      0x122 fs/link.o
- *fill*         0x000000000001392a        0x2 
- .rodata        0x000000000001392c      0x7d6 fs/disklog.o
- .rodata        0x0000000000014102       0x14 lib/orangescrt.a(printf.o)
- *fill*         0x0000000000014116        0x2 
- .rodata        0x0000000000014118       0xad lib/orangescrt.a(misc.o)
- .rodata        0x00000000000141c5       0x23 lib/orangescrt.a(open.o)
- .rodata        0x00000000000141e8       0x25 lib/orangescrt.a(getpid.o)
- .rodata        0x000000000001420d       0x23 lib/orangescrt.a(stat.o)
- .rodata        0x0000000000014230       0x33 lib/orangescrt.a(fork.o)
- *fill*         0x0000000000014263        0x1 
- .rodata        0x0000000000014264       0x87 lib/orangescrt.a(exec.o)
+ .rodata        0x0000000000012dd4      0x35b kernel/welcome.o
+ .rodata        0x000000000001312f       0x1e lib/syslog.o
+ *fill*         0x000000000001314d        0x3 
+ .rodata        0x0000000000013150       0xb1 mm/main.o
+ *fill*         0x0000000000013201        0x3 
+ .rodata        0x0000000000013204       0xe7 mm/forkexit.o
+ *fill*         0x00000000000132eb        0x1 
+ .rodata        0x00000000000132ec       0xa4 mm/exec.o
+ .rodata        0x0000000000013390      0x2ce fs/main.o
+ *fill*         0x000000000001365e        0x2 
+ .rodata        0x0000000000013660      0x134 fs/open.o
+ .rodata        0x0000000000013794       0x60 fs/misc.o
+ .rodata        0x00000000000137f4      0x122 fs/link.o
+ *fill*         0x0000000000013916        0x2 
+ .rodata        0x0000000000013918      0x7d6 fs/disklog.o
+ .rodata        0x00000000000140ee       0x14 lib/orangescrt.a(printf.o)
+ *fill*         0x0000000000014102        0x2 
+ .rodata        0x0000000000014104       0xad lib/orangescrt.a(misc.o)
+ .rodata        0x00000000000141b1       0x23 lib/orangescrt.a(open.o)
+ .rodata        0x00000000000141d4       0x25 lib/orangescrt.a(getpid.o)
+ .rodata        0x00000000000141f9       0x23 lib/orangescrt.a(stat.o)
+ .rodata        0x000000000001421c       0x33 lib/orangescrt.a(fork.o)
+ *fill*         0x000000000001424f        0x1 
+ .rodata        0x0000000000014250       0x87 lib/orangescrt.a(exec.o)
 
 .rodata1
  *(.rodata1)
@@ -534,80 +534,80 @@ LOAD lib/orangescrt.a
  *(.eh_frame_hdr)
  *(.eh_frame_entry .eh_frame_entry.*)
 
-.eh_frame       0x00000000000142ec     0x1830
+.eh_frame       0x00000000000142d8     0x1830
  *(.eh_frame)
- .eh_frame      0x00000000000142ec       0x38 kernel/start.o
- .eh_frame      0x0000000000014324      0x5e8 kernel/main.o
+ .eh_frame      0x00000000000142d8       0x38 kernel/start.o
+ .eh_frame      0x0000000000014310      0x5e8 kernel/main.o
                                         0x600 (size before relaxing)
- .eh_frame      0x000000000001490c       0x60 kernel/clock.o
+ .eh_frame      0x00000000000148f8       0x60 kernel/clock.o
                                          0x78 (size before relaxing)
- .eh_frame      0x000000000001496c       0xe0 kernel/keyboard.o
+ .eh_frame      0x0000000000014958       0xe0 kernel/keyboard.o
                                          0xf8 (size before relaxing)
- .eh_frame      0x0000000000014a4c      0x1bc kernel/tty.o
+ .eh_frame      0x0000000000014a38      0x1bc kernel/tty.o
                                         0x1d4 (size before relaxing)
- .eh_frame      0x0000000000014c08      0x144 kernel/console.o
+ .eh_frame      0x0000000000014bf4      0x144 kernel/console.o
                                         0x15c (size before relaxing)
- .eh_frame      0x0000000000014d4c       0x60 kernel/i8259.o
+ .eh_frame      0x0000000000014d38       0x60 kernel/i8259.o
                                          0x78 (size before relaxing)
- .eh_frame      0x0000000000014dac       0xb0 kernel/protect.o
+ .eh_frame      0x0000000000014d98       0xb0 kernel/protect.o
                                          0xc8 (size before relaxing)
- .eh_frame      0x0000000000014e5c      0x1b8 kernel/proc.o
+ .eh_frame      0x0000000000014e48      0x1b8 kernel/proc.o
                                         0x1d0 (size before relaxing)
- .eh_frame      0x0000000000015014       0x5c kernel/systask.o
+ .eh_frame      0x0000000000015000       0x5c kernel/systask.o
                                          0x74 (size before relaxing)
- .eh_frame      0x0000000000015070      0x1c8 kernel/hd.o
+ .eh_frame      0x000000000001505c      0x1c8 kernel/hd.o
                                         0x1e0 (size before relaxing)
- .eh_frame      0x0000000000015238       0xa0 kernel/klib.o
+ .eh_frame      0x0000000000015224       0xa0 kernel/klib.o
                                          0xb8 (size before relaxing)
- .eh_frame      0x00000000000152d8       0x40 kernel/welcome.o
+ .eh_frame      0x00000000000152c4       0x40 kernel/welcome.o
                                          0x58 (size before relaxing)
- .eh_frame      0x0000000000015318       0x20 lib/syslog.o
+ .eh_frame      0x0000000000015304       0x20 lib/syslog.o
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015338       0x7c mm/main.o
+ .eh_frame      0x0000000000015324       0x7c mm/main.o
                                          0x94 (size before relaxing)
- .eh_frame      0x00000000000153b4       0x90 mm/forkexit.o
+ .eh_frame      0x00000000000153a0       0x90 mm/forkexit.o
                                          0xa8 (size before relaxing)
- .eh_frame      0x0000000000015444       0x2c mm/exec.o
+ .eh_frame      0x0000000000015430       0x2c mm/exec.o
                                          0x44 (size before relaxing)
- .eh_frame      0x0000000000015470      0x170 fs/main.o
+ .eh_frame      0x000000000001545c      0x170 fs/main.o
                                         0x188 (size before relaxing)
- .eh_frame      0x00000000000155e0      0x120 fs/open.o
+ .eh_frame      0x00000000000155cc      0x120 fs/open.o
                                         0x138 (size before relaxing)
- .eh_frame      0x0000000000015700       0x68 fs/misc.o
+ .eh_frame      0x00000000000156ec       0x68 fs/misc.o
                                          0x80 (size before relaxing)
- .eh_frame      0x0000000000015768       0x2c fs/read_write.o
+ .eh_frame      0x0000000000015754       0x2c fs/read_write.o
                                          0x44 (size before relaxing)
- .eh_frame      0x0000000000015794       0x2c fs/link.o
+ .eh_frame      0x0000000000015780       0x2c fs/link.o
                                          0x44 (size before relaxing)
- .eh_frame      0x00000000000157c0       0x60 fs/disklog.o
+ .eh_frame      0x00000000000157ac       0x60 fs/disklog.o
                                          0x78 (size before relaxing)
- .eh_frame      0x0000000000015820       0x40 lib/orangescrt.a(printf.o)
+ .eh_frame      0x000000000001580c       0x40 lib/orangescrt.a(printf.o)
                                          0x58 (size before relaxing)
- .eh_frame      0x0000000000015860       0x60 lib/orangescrt.a(vsprintf.o)
+ .eh_frame      0x000000000001584c       0x60 lib/orangescrt.a(vsprintf.o)
                                          0x78 (size before relaxing)
- .eh_frame      0x00000000000158c0       0xbc lib/orangescrt.a(misc.o)
+ .eh_frame      0x00000000000158ac       0xbc lib/orangescrt.a(misc.o)
                                          0xd4 (size before relaxing)
- .eh_frame      0x000000000001597c       0x20 lib/orangescrt.a(open.o)
+ .eh_frame      0x0000000000015968       0x20 lib/orangescrt.a(open.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x000000000001599c       0x20 lib/orangescrt.a(read.o)
+ .eh_frame      0x0000000000015988       0x20 lib/orangescrt.a(read.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x00000000000159bc       0x20 lib/orangescrt.a(write.o)
+ .eh_frame      0x00000000000159a8       0x20 lib/orangescrt.a(write.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x00000000000159dc       0x20 lib/orangescrt.a(close.o)
+ .eh_frame      0x00000000000159c8       0x20 lib/orangescrt.a(close.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x00000000000159fc       0x20 lib/orangescrt.a(unlink.o)
+ .eh_frame      0x00000000000159e8       0x20 lib/orangescrt.a(unlink.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015a1c       0x20 lib/orangescrt.a(lseek.o)
+ .eh_frame      0x0000000000015a08       0x20 lib/orangescrt.a(lseek.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015a3c       0x20 lib/orangescrt.a(getpid.o)
+ .eh_frame      0x0000000000015a28       0x20 lib/orangescrt.a(getpid.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015a5c       0x20 lib/orangescrt.a(stat.o)
+ .eh_frame      0x0000000000015a48       0x20 lib/orangescrt.a(stat.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015a7c       0x20 lib/orangescrt.a(fork.o)
+ .eh_frame      0x0000000000015a68       0x20 lib/orangescrt.a(fork.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015a9c       0x20 lib/orangescrt.a(wait.o)
+ .eh_frame      0x0000000000015a88       0x20 lib/orangescrt.a(wait.o)
                                          0x38 (size before relaxing)
- .eh_frame      0x0000000000015abc       0x60 lib/orangescrt.a(exec.o)
+ .eh_frame      0x0000000000015aa8       0x60 lib/orangescrt.a(exec.o)
                                          0x78 (size before relaxing)
  *(.eh_frame.*)
 
@@ -619,7 +619,7 @@ LOAD lib/orangescrt.a
 
 .exception_ranges
  *(.exception_ranges .exception_ranges*)
-                0x0000000000016b1c                . = DATA_SEGMENT_ALIGN (0x1000, 0x1000)
+                0x0000000000016b08                . = DATA_SEGMENT_ALIGN (0x1000, 0x1000)
 
 .eh_frame
  *(.eh_frame)
@@ -641,18 +641,18 @@ LOAD lib/orangescrt.a
  *(.tbss .tbss.* .gnu.linkonce.tb.*)
  *(.tcommon)
 
-.preinit_array  0x0000000000016b1c        0x0
+.preinit_array  0x0000000000016b08        0x0
                 [!provide]                        PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
                 [!provide]                        PROVIDE (__preinit_array_end, .)
 
-.init_array     0x0000000000016b1c        0x0
+.init_array     0x0000000000016b08        0x0
                 [!provide]                        PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*) SORT(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
                 [!provide]                        PROVIDE (__init_array_end, .)
 
-.fini_array     0x0000000000016b1c        0x0
+.fini_array     0x0000000000016b08        0x0
                 [!provide]                        PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*) SORT(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
@@ -685,12 +685,12 @@ LOAD lib/orangescrt.a
 .got
  *(.got)
  *(.igot)
-                0x0000000000016b1c                . = DATA_SEGMENT_RELRO_END (., (SIZEOF (.got.plt) >= 0xc)?0xc:0x0)
+                0x0000000000016b08                . = DATA_SEGMENT_RELRO_END (., (SIZEOF (.got.plt) >= 0xc)?0xc:0x0)
 
-.got.plt        0x0000000000016b1c        0x0
+.got.plt        0x0000000000016b08        0x0
  *(.got.plt)
  *(.igot.plt)
- .igot.plt      0x0000000000016b1c        0x0 kernel/kernel.o
+ .igot.plt      0x0000000000016b08        0x0 kernel/kernel.o
 
 .data           0x0000000000016b20      0xad4
  *(.data .data.* .gnu.linkonce.d.*)
