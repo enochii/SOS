@@ -71,3 +71,9 @@ chess.o: chess.c ../include/type.h ../include/stdio.h
 
 chess : chess.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
+
+saolei.o: saolei.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+saolei : saolei.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?

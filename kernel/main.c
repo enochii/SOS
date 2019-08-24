@@ -302,6 +302,7 @@ void shabby_shell(const char *tty_name)
     char buf[1024];
 
     initFs();
+    //根据用户输入的用户名和密码确认是否正确，并设置CurrentUser
     while (1)
     {
         if (usercount == 0)
@@ -360,12 +361,15 @@ void shabby_shell(const char *tty_name)
         clearArr(arg1, 128);
         clearArr(arg2, 128);
         clearArr(buf, 1024);
-	if(UserState == 3)
-		printf("[Admin@YuiOS]%s%s# ",currentUser,currentFolder);
-	else	
-		printf("[%s@YuiOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
+        if(UserState == 3){
+            printf("[Admin@YuiOS]%s%s# ",currentUser,currentFolder);
+        }
+        else{
+            printf("[%s@YuiOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
+        }	
+            
         //write(1, "$ ", 2);
-        int r = read(0, rdbuf, 70);
+        int r = read(0, rdbuf, 70);//读取用户输入
         rdbuf[r] = 0;
 
         int argc = 0;
@@ -645,6 +649,7 @@ int vertify()
 }
 
 /* Create Filepath */
+//将global的filepath变成 cur_user|cur_folder|filename的形式
 void createFilepath(char* filename)
 {
 	int i = 0, j = 0, k = 0;
@@ -1053,6 +1058,7 @@ void createFile(char *filepath, char *buf, int flag)
 }
 
 /*Get into the fold*/
+//Command CD
 void openFolder(char* filepath,char* filename)
 {
 	//Check if it is a back father path command
@@ -1378,6 +1384,7 @@ void moveUser(char *username, char *password)
     else
         printf("Permission Deny!");
 }
+
 /* Compare the file path to current directory */
 void pathCompare(char* temp)
 {
@@ -1396,6 +1403,7 @@ void pathCompare(char* temp)
 		if(current_temp[j] != temp[j])
 		{
 			flag = 0;
+            printf("No such file?");
 			break;
 		}	
 	}
@@ -1653,15 +1661,7 @@ int main_tic()
 		input[r]=0;
 		x=input[0]-48;
 		y=input[2]-48;
-/*
-		printf("%c\n",input[0]);
-		printf("%c\n",input[2]);
-		printf("%d\n",r);
-		printf("%c\n",x);
-		printf("%c\n",y);
-		printf("%s\n",input);
-		read(0,input,128);
-*/		
+
 		if(x+48=='q'){
 		   printf("Game Over\n"); 
 		   return 0;
