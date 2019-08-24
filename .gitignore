@@ -4,7 +4,7 @@
 # avoid the diff of envs
 bochsrc
 
-tic*
+command/tic*
 
 #
 README-OLD.md
