@@ -459,7 +459,7 @@ void shabby_shell(const char *tty_name)
                 {
                     shift(arg1, arg2);
                 }
-                else if (strcmp(cmd, "mkfile") == 0)
+                else if (strcmp(cmd, "mkfile") == 0||strcmp(cmd, "touch")==0)
                 {
                     createFilepath(arg1);
                     createFile(filepath, arg2, 1);
@@ -524,7 +524,7 @@ void shabby_shell(const char *tty_name)
                 {
                     resume(arg1);
                 }
-                else if (strcmp(cmd, "tictactoe") == 0)
+                else if (strcmp(cmd, "tictactoe") == 0||strcmp(cmd, "ttt")==0)
                 {
                     main_tic();
                     // printf("ttt?\n");
@@ -1403,7 +1403,9 @@ void pathCompare(char* temp)
 	}
 	if(flag == 1)
 	{
-		for(j; j < strlen(temp);j++,k++)
+        // in our "multi-class" file system, the sub-directory should not be shown
+        // so u need to do sth...
+		for(j; j < strlen(temp)&&temp[j]!='|';j++,k++)
 		{
 			filename_only[k] = temp[j];
 		}
@@ -1427,10 +1429,10 @@ void pathFilter(char* bufr)
 		{
 			q++;												
 		}
-		if(*q == '\0')
-			return;
-		else
-		{
+		if(*q == '\0'){
+            return;
+        }
+		else{
 			*q = '\0';
 			length = q - p;
 			int i = 0;

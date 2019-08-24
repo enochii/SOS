@@ -324,7 +324,7 @@ PRIVATE void match(TTY* tty)
     
     while(tty->inputing[startpoint] != ' ' && startpoint>0)
     {
-	startpoint--;
+		startpoint--;
     }				                         //i == 0 or inputing[i] == ' '
 
     int step = 0;
@@ -332,51 +332,51 @@ PRIVATE void match(TTY* tty)
 
     if(startpoint == 0 && tty->inputing[startpoint] != ' ')   //match operations
     {
-        char *operations = "help kill resume pause proc ls tictactoe boom ";
+        char *operations = "help kill resume pause proc ls tictactoe boom cd del touch mkdir ";
 
         if(operations[step] == tty->inputing[startpoint])
         {
             while(operations[step] == tty->inputing[startpoint+step] && startpoint + step < length)
             {
-        	step++;
-	    }
-	    if(startpoint+step == length)  //match first
+        		step++;
+	    	}
+	    	if(startpoint+step == length)  //match first
             {
-		while(operations[step] != ' ')
-		{
-		    put_key(tty,operations[step]);
-                    tty->inputing[tty->index] = operations[step];
-                    tty->index++;
-		    step++;
-		}
+				while(operations[step] != ' ')
+				{
+					put_key(tty,operations[step]);
+							tty->inputing[tty->index] = operations[step];
+							tty->index++;
+					step++;
+				}
                 return;
             }
-	}
+		}
 
-        while(operations[step])
-        {
-            if(operations[step] == tty->inputing[startpoint] && operations[step - 1] == ' ')
-            {
-        	len = 0;
-        	while(operations[step] == tty->inputing[startpoint+len] && startpoint + len < length)
-        	{
-		    step++;
-                    len++;
-		}
-		if(startpoint+len == length)      //match here
+		while(operations[step])
 		{
-		    while(operations[step] != ' ')
-		    {
-		        put_key(tty,operations[step]);
-                        tty->inputing[tty->index] = operations[step];
-                        tty->index++;
-		        step++;
-		    }
-		    break;
+			if(operations[step] == tty->inputing[startpoint] && operations[step - 1] == ' ')
+			{
+				len = 0;
+				while(operations[step] == tty->inputing[startpoint+len] && startpoint + len < length)
+				{
+					step++;
+					len++;
+				}
+				if(startpoint+len == length)      //match here
+				{
+					while(operations[step] != ' ')
+					{
+						put_key(tty,operations[step]);
+								tty->inputing[tty->index] = operations[step];
+								tty->index++;
+						step++;
+					}
+					break;
+				}
+			}
+			step++;
 		}
-	    }
-            step++;
-	}
     }
 
     if(tty->inputing[startpoint] == ' ' && startpoint != 0)   //match filename
@@ -388,45 +388,45 @@ PRIVATE void match(TTY* tty)
         {
             while(filepath[step] == tty->inputing[startpoint+step] && startpoint + step < length)
             {
-        	step++;
-	    }
-	    if(startpoint+step == length)  //match first
+        		step++;
+	    	}
+	    	if(startpoint+step == length)  //match first
             {
-		while(filepath[step] != ' ')
-		{
-		    put_key(tty,filepath[step]);
-                    tty->inputing[tty->index] = filepath[step];
-                    tty->index++;
-		    step++;
-		}
+				while(filepath[step] != ' ')
+				{
+					put_key(tty,filepath[step]);
+							tty->inputing[tty->index] = filepath[step];
+							tty->index++;
+					step++;
+				}
                 return;
             }
-	}
+		}
 
         while(filepath[step])
         {
             if(filepath[step] == tty->inputing[startpoint] && filepath[step - 1] == ' ')
             {
-        	len = 0;
-        	while(filepath[step] == tty->inputing[startpoint+len] && startpoint + len < length)
-        	{
-		    step++;
+        		len = 0;
+        		while(filepath[step] == tty->inputing[startpoint+len] && startpoint + len < length)
+        		{
+		    		step++;
                     len++;
-		}
-		if(startpoint+len == length)      //match here
-		{
-		    while(filepath[step] != ' ')
-		    {
-		        put_key(tty,filepath[step]);
-                        tty->inputing[tty->index] = filepath[step];
-                        tty->index++;
-		        step++;
-		    }
-		    break;
-		}
-	    }
+				}
+				if(startpoint+len == length)      //match here
+				{
+					while(filepath[step] != ' ')
+					{
+						put_key(tty,filepath[step]);
+						tty->inputing[tty->index] = filepath[step];
+						tty->index++;
+						step++;
+					}
+					break;
+				}
+	    	}
             step++;
-	}
+		}
     }
 
     //printl("%s\n", filepath);
