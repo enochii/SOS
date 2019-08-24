@@ -4,6 +4,8 @@
 # avoid the diff of envs
 bochsrc
 
+tic*
+
 #
 README-OLD.md
 img/
