@@ -1484,7 +1484,9 @@ void ls()
 
 /* Show Process */
 void showProcess()
-{	int i = 0;
+{	
+    printf("enxm\n");
+    int i = 0;
 	printf("---------------------------------\n");
     printf("| pid |    name     |   state   |\n");
     printf("---------------------------------\n");
