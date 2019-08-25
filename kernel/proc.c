@@ -174,6 +174,9 @@ PUBLIC void reset_msg(MESSAGE* p)
 PRIVATE void block(struct proc* p)
 {
 	assert(p->p_flags);
+	// when on e proc is blocked, usually it's interacting with user
+	//so we rest its ticks
+	p->ticks=p->priority;
 	schedule();
 }
 
