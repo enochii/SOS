@@ -20,6 +20,8 @@ Dinghow Yang, 2018
 #include "global.h"
 #include "proto.h"
 
+#include "ano_schdule.h"
+
 /*****************************************************************************
 *                               kernel_main
 *****************************************************************************/
@@ -150,10 +152,13 @@ PUBLIC int kernel_main()
 
     p_proc_ready = proc_table;
 
+
     init_clock();
     init_keyboard();
 
     restart();
+
+    init_pro_que();
 
     while (1)
     {
@@ -1485,7 +1490,7 @@ void ls()
 /* Show Process */
 void showProcess()
 {	
-    printf("enxm\n");
+    // printf("xm\n");
     int i = 0;
 	printf("---------------------------------\n");
     printf("| pid |    name     |   state   |\n");

@@ -77,6 +77,8 @@ struct proc {
 	int exit_status; /**< for parent */
 
 	struct file_desc * filp[NR_FILES];
+
+	int rank;
 };
 
 struct task {

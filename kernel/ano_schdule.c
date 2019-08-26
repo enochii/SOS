@@ -18,6 +18,8 @@
 #include "global.h"
 #include "proto.h"
 
+#include "ano_schdule.h"
+
 #define RANK0_TICKS 15
 #define RANK1_TICKS 5
 
@@ -33,8 +35,15 @@ static int ano_tick_cnt=0;
 
 #define NEED_TO_FLASH 100
 
+// PUBLIC void init_pro_que();
+// PUBLIC void add_to_que(struct  proc* p);
+// PUBLIC void del_from_que(struct proc* p);
+// PUBLIC void set_proc_rank(struct proc* p, int rank);
+// PUBLIC void flush_proc();
+
 PUBLIC int need_to_flush()
 {
+    printf("ano_schedule\n");
     return ano_tick_cnt>=NEED_TO_FLASH;
 }
 
@@ -84,7 +93,8 @@ PUBLIC void init_pro_que()
     // assert(0);
     printf("Init the proc queue!\n");
     struct proc *p;
-    for(int i=0;i<NR_TASKS+NR_NATIVE_PROCS;i++){
+    int i;
+    for(i=0;i<NR_TASKS+NR_NATIVE_PROCS;i++){
         p=proc_que[0][i]=&proc_table[i];
         // p->rank=0;//initial rank
         set_proc_rank(p,0);
@@ -121,7 +131,7 @@ PUBLIC void del_from_que(struct proc* p)
 
 // we may need to implement this to avoid hunger
 //may need to use a global cnt
-PUBLIC void flush()
+PUBLIC void flush_proc()
 {
     assert(NEED_TO_FLASH<=ano_tick_cnt);
 
