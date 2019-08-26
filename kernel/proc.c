@@ -17,6 +17,8 @@
 #include "global.h"
 #include "proto.h"
 
+#include "ano_schdule.h"
+
 PRIVATE void block(struct proc* p);
 PRIVATE void unblock(struct proc* p);
 PRIVATE int  msg_send(struct proc* current, int dest, MESSAGE* m);
@@ -32,6 +34,7 @@ PRIVATE int  deadlock(int src, int dest);
  *****************************************************************************/
 PUBLIC void schedule()
 {
+	ano_schdule();return;
 	struct proc*	p;
 	int		greatest_ticks = 0;
 
@@ -176,7 +179,7 @@ PRIVATE void block(struct proc* p)
 	assert(p->p_flags);
 	// when on e proc is blocked, usually it's interacting with user
 	//so we rest its ticks
-	p->ticks=p->priority;
+	// p->ticks=p->priority;
 	schedule();
 }
 

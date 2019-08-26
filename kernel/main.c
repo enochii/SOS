@@ -128,6 +128,8 @@ PUBLIC int kernel_main()
         p->regs.eflags = eflags;
 
         p->ticks = p->priority = prio;
+        set_proc_rank(p,0);
+
         strcpy(p->name, t->name); /* name of the process */
         p->pid = i;               /* pid */
         p->run_count = 0;
@@ -158,7 +160,6 @@ PUBLIC int kernel_main()
 
     restart();
 
-    init_pro_que();
 
     while (1)
     {

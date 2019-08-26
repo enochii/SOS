@@ -23,7 +23,7 @@ static void clear()
 int main_tic()
 {
     clear();
-	printf("test\n");
+	printf("sleep fuck!\n");
 	printf("Welcome Tictactoe, input q to quit game\n");
 	int result=0;
 	display();

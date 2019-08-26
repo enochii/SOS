@@ -20,6 +20,7 @@
 #include "keyboard.h"
 #include "proto.h"
 
+#include "ano_schdule.h"
 
 PRIVATE void cleanup(struct proc * proc);
 
@@ -120,6 +121,7 @@ PUBLIC int do_fork()
 
 	/* child PID will be returned to the parent proc */
 	mm_msg.PID = child_pid;
+	set_proc_rank(&proc_table[child_pid],0);
 
 	/* birth of the child */
 	MESSAGE m;
