@@ -10,6 +10,8 @@
 // PUBLIC void add_to_que(struct  proc* p);
 // PUBLIC void del_from_que(struct proc* p);
 // extern int RANK_TICKS[];
+#define POLICY_PRI 0
+#define POLICY_MULTI_QUE 1
 
 PUBLIC void set_proc_rank(struct proc* p, int rank);
 PUBLIC void flush_proc();

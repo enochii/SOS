@@ -37,9 +37,8 @@ int RANK_TICKS[MAX_RANK]={
     15, 10, 5
 };
 
-#define POLICY_PRI 0
-#define POLICY_MULTI_QUE 1
-static int cur_schd_policy=POLICY_PRI;;
+
+static int cur_schd_policy=POLICY_MULTI_QUE;
 
 PUBLIC int need_to_flush()
 {
@@ -62,13 +61,13 @@ PUBLIC void ano_schdule()
         &&p_proc_ready->p_flags==0
     ){
         if(p_proc_ready->rank==MAX_RANK-1){
-            p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
+            // p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
         }else{
         //     //lower rank when ticks runs out
             p_proc_ready->rank++;
         //     p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
         }
-        // p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
+        p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
     }
 
     // struct proc* p;

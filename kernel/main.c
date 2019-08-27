@@ -540,8 +540,19 @@ void shabby_shell(const char *tty_name)
 		{
 		    mainboom();
 		}
+        else if(strcmp(cmd, "policy")==0)
+        {
+            printf("current policy: ");
+            printf(get_schd_policy()==POLICY_PRI?"priority":"multi-que");
+            printf("!\n");
+        }
+        else if(strcmp(cmd, "changeplc")==0)
+        {
+            change_schd_policy();
+        }
                 else
                 {
+                    printf("i cannot understand your cmd\n");
                     continue;
                 }
             }
@@ -1493,9 +1504,12 @@ void showProcess()
 {	
     // printf("xm\n");
     int i = 0;
-	printf("---------------------------------\n");
-    printf("| pid |    name     |   state   |\n");
-    printf("---------------------------------\n");
+	printf("---------------------------------");
+    printf(POLICY_MULTI_QUE==get_schd_policy()?"---------\n":"\n");
+    printf("| pid |    name     |   state   |");
+    printf(POLICY_MULTI_QUE==get_schd_policy()?"  rank |\n":"\n");
+    printf("---------------------------------");
+    printf(POLICY_MULTI_QUE==get_schd_policy()?"---------\n":"\n");
 	for (i = 0; i < NR_TASKS + NR_NATIVE_PROCS; i++)
 	{
 		if(proc_table[i].p_flags != 1){
@@ -1508,15 +1522,20 @@ void showProcess()
         		for(j=0;j<12-len(proc_table[i].name);j++)
             			printf(" ");
 
-			if(proc_table[i].run_state) printf("|  running ");
+			if(proc_table[i].run_state) printf("|  running  ");
 			else printf("|  paused  ");
+
+            if(POLICY_MULTI_QUE==get_schd_policy()){
+                printf("   %d   ", proc_table[i].rank);
+            }
 
 			if(i <= NR_TASKS) printf("-");
 			else printf(" ");
         		printf("|\n");	
 		}
 	}
-	printf("---------------------------------\n");
+	printf("---------------------------------");
+    printf(POLICY_MULTI_QUE==get_schd_policy()?"---------\n":"\n");
 }
 
 /*****************************************************************************

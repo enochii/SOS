@@ -34,7 +34,9 @@ PRIVATE int  deadlock(int src, int dest);
  *****************************************************************************/
 PUBLIC void schedule()
 {
-	ano_schdule();return;
+	if(get_schd_policy()==POLICY_MULTI_QUE){
+		ano_schdule();return;
+	}
 	struct proc*	p;
 	int		greatest_ticks = 0;
 
@@ -181,7 +183,9 @@ PRIVATE void block(struct proc* p)
 	//so we rest its ticks
 	// p->ticks=p->priority;
 	// p->ticks=15;
-	p->rank--;
+	if(get_schd_policy()==POLICY_MULTI_QUE && p->rank>0){
+		p->rank--;
+	}
 	schedule();
 }
 
