@@ -9,3 +9,5 @@ command/tic*
 #
 README-OLD.md
 img/
+
+*.lock

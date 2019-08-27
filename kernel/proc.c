@@ -180,6 +180,8 @@ PRIVATE void block(struct proc* p)
 	// when on e proc is blocked, usually it's interacting with user
 	//so we rest its ticks
 	// p->ticks=p->priority;
+	// p->ticks=15;
+	p->rank--;
 	schedule();
 }
 

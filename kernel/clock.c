@@ -19,6 +19,7 @@
 #include "global.h"
 #include "proto.h"
 
+#include "ano_schdule.h"
 
 /*****************************************************************************
  *                                clock_handler
@@ -43,6 +44,8 @@ PUBLIC void clock_handler(int irq)
 		p_proc_ready->run_count++;
 	}
 
+	ano_inc_tick();
+
 	//if has run for 20 time,lowing the priority
 
 	if (p_proc_ready->run_count >= p_proc_ready->priority / 2) {
@@ -64,6 +67,10 @@ PUBLIC void clock_handler(int irq)
 
 	if (p_proc_ready->ticks > 0) {
 		return;
+	}
+
+	if(need_to_flush()){
+		flush_proc();
 	}
 
 	schedule();

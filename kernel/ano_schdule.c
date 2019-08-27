@@ -37,6 +37,9 @@ int RANK_TICKS[MAX_RANK]={
     15, 10, 5
 };
 
+#define POLICY_PRI 0
+#define POLICY_MULTI_QUE 1
+static int cur_schd_policy=POLICY_PRI;;
 
 PUBLIC int need_to_flush()
 {
@@ -53,19 +56,20 @@ PUBLIC void ano_schdule()
 {
     struct proc*	p;
 
-    // if(
-    //     //p_proc_ready!=NULL &&
-    //     p_proc_ready->ticks==0
-    //     &&p_proc_ready->p_flags==0
-    // ){
-    //     if(p_proc_ready->rank==MAX_RANK-1){
-    //         p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
-    //     }else{
-    //     //     //lower rank when ticks runs out
-    //         p_proc_ready->rank++;
-    //     //     p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
-    //     }
-    // }
+    if(
+        //p_proc_ready!=NULL &&
+        p_proc_ready->ticks==0
+        &&p_proc_ready->p_flags==0
+    ){
+        if(p_proc_ready->rank==MAX_RANK-1){
+            p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
+        }else{
+        //     //lower rank when ticks runs out
+            p_proc_ready->rank++;
+        //     p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
+        }
+        // p_proc_ready->ticks=RANK_TICKS[p_proc_ready->rank];
+    }
 
     // struct proc* p;
     //rower rank, higher priority
@@ -125,7 +129,17 @@ int rank_valid(int rank)
     return rank>=0&&rank<MAX_RANK;
 }
 
-int ticks_of_rank(int rank)
+// int ticks_of_rank(int rank)
+// {
+//     return RANK_TICKS[rank];
+// }
+
+void change_schd_policy()
 {
-    return RANK_TICKS[rank];
+    cur_schd_policy=1-cur_schd_policy;
+}
+
+int get_schd_policy()
+{
+    return cur_schd_policy;
 }

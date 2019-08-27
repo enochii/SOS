@@ -18,5 +18,7 @@ PUBLIC void ano_inc_tick();
 PUBLIC void ano_schdule();
 PUBLIC void reset_proc_ticks(struct proc* p);
 int ticks_of_rank(int rank);
+int get_schd_policy();
+void change_schd_policy();
 
 #endif // __ANO_SCHEDULE
