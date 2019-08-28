@@ -434,23 +434,23 @@ LOAD lib/orangescrt.a
                 0x000000000000e290                dump_fd_graph
  .text          0x000000000000fcf3      0xcc5 game/tictactoe.o
                 0x000000000000fd38                main_tic
- .text          0x00000000000109b8      0x27e kernel/ano_schdule.o
+ .text          0x00000000000109b8      0x281 kernel/ano_schdule.o
                 0x00000000000109b8                need_to_flush
-                0x00000000000109d8                ano_inc_tick
-                0x00000000000109f6                ano_schdule
-                0x0000000000010b06                flush_proc
-                0x0000000000010b65                set_proc_rank
-                0x0000000000010bb5                reset_proc_ticks
-                0x0000000000010bf6                rank_valid
-                0x0000000000010c13                change_schd_policy
-                0x0000000000010c2c                get_schd_policy
- .text          0x0000000000010c36       0xad lib/orangescrt.a(printf.o)
-                0x0000000000010c36                printf
-                0x0000000000010ca1                printl
- .text          0x0000000000010ce3      0x305 lib/orangescrt.a(vsprintf.o)
-                0x0000000000010d41                vsprintf
-                0x0000000000010fc2                sprintf
- *fill*         0x0000000000010fe8        0x8 
+                0x00000000000109db                ano_inc_tick
+                0x00000000000109f9                ano_schdule
+                0x0000000000010b09                flush_proc
+                0x0000000000010b68                set_proc_rank
+                0x0000000000010bb8                reset_proc_ticks
+                0x0000000000010bf9                rank_valid
+                0x0000000000010c16                change_schd_policy
+                0x0000000000010c2f                get_schd_policy
+ .text          0x0000000000010c39       0xad lib/orangescrt.a(printf.o)
+                0x0000000000010c39                printf
+                0x0000000000010ca4                printl
+ .text          0x0000000000010ce6      0x305 lib/orangescrt.a(vsprintf.o)
+                0x0000000000010d44                vsprintf
+                0x0000000000010fc5                sprintf
+ *fill*         0x0000000000010feb        0x5 
  .text          0x0000000000010ff0       0x78 lib/orangescrt.a(string.o)
                 0x0000000000010ff0                memcpy
                 0x0000000000011019                memset

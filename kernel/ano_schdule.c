@@ -47,7 +47,7 @@ static int cur_schd_policy=POLICY_MULTI_QUE;
 PUBLIC int need_to_flush()
 {
     if(cur_schd_policy==POLICY_PRI){
-        return;
+        return 0;
     }
     return ano_tick_cnt>=NEED_TO_FLASH;
 }
