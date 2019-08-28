@@ -871,7 +871,10 @@ void initFs()
     for (i = 0; i < 500; i++)
         filequeue[i] = 1;
 
+
     initFolder();
+
+
     fd = open("myUsers", O_RDWR);
     close(fd);
     fd = open("myUsersPassword", O_RDWR);
@@ -882,10 +885,14 @@ void initFs()
     close(fd);
     fd = open("user2", O_RDWR);
     close(fd);
+
+
     /* init users */
     fd = open("myUsers", O_RDWR);
     n = read(fd, bufr, 1024);
     bufr[strlen(bufr)] = '\0';
+
+
     for (i = 0; i < strlen(bufr); i++)
     {
         if (bufr[i] != ' ')
@@ -922,6 +929,7 @@ void initFs()
     close(fd);
     count = 0;
     k = 0;
+
 
     /* init password */
     fd = open("myUsersPassword", O_RDWR);

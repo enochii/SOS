@@ -149,6 +149,102 @@ PUBLIC int do_open()
 
 	return fd;
 }
+// TODO: 替换成下面的do_open()会在启动时卡住
+// PUBLIC int do_open()
+// {
+// 	int fd = -1;		/* return value */
+
+
+// 	char pathname[MAX_PATH];
+
+// 	/* get parameters from the message */
+// 	int flags = fs_msg.FLAGS;	/* access mode */
+// 	int name_len = fs_msg.NAME_LEN;	/* length of filename */
+// 	int src = fs_msg.source;	/* caller proc nr. */
+// 	assert(name_len < MAX_PATH);
+// 	phys_copy((void*)va2la(TASK_FS, pathname),
+// 		  (void*)va2la(src, fs_msg.PATHNAME),
+// 		  name_len);
+// 	pathname[name_len] = 0;
+
+// 	/* find a free slot in PROCESS::filp[] */
+// 	int i;
+// 	for (i = 0; i < NR_FILES; i++) {
+// 		if (pcaller->filp[i] == 0) {
+// 			fd = i;
+// 			break;
+// 		}
+// 	}
+// 	if ((fd < 0) || (fd >= NR_FILES))
+// 		panic("filp[] is full (PID:%d)", proc2pid(pcaller));
+
+// 	/* find a free slot in f_desc_table[] */
+// 	for (i = 0; i < NR_FILE_DESC; i++)
+// 		if (f_desc_table[i].fd_inode == 0)
+// 			break;
+// 	if (i >= NR_FILE_DESC)
+// 		panic("f_desc_table[] is full (PID:%d)", proc2pid(pcaller));
+
+// 	int inode_nr = search_file(pathname);
+
+// 	struct inode * pin = 0;
+// 	if (flags & O_CREAT) {
+// 		if (inode_nr) {
+// 			printl("file exists.\n");
+// 			return -1;
+// 		}
+// 		else {
+// 			pin = create_file(pathname, flags);
+// 		}
+// 	}
+// 	else {
+// 		assert(flags & O_RDWR);
+
+// 		char filename[MAX_PATH];
+// 		struct inode * dir_inode;
+// 		if (strip_path(filename, pathname, &dir_inode) != 0)
+// 			return -1;
+// 		pin = get_inode(dir_inode->i_dev, inode_nr);
+// 		// why pin equals to 0???
+// 	}
+
+// 	if (pin) {
+// 		/* connects proc with file_descriptor */
+// 		pcaller->filp[fd] = &f_desc_table[i];
+
+// 		/* connects file_descriptor with inode */
+// 		f_desc_table[i].fd_inode = pin;
+
+// 		f_desc_table[i].fd_mode = flags;
+// 		/* f_desc_table[i].fd_cnt = 1; */
+// 		f_desc_table[i].fd_pos = 0;
+
+// 		int imode = pin->i_mode & I_TYPE_MASK;
+
+// 		if (imode == I_CHAR_SPECIAL) {
+// 			MESSAGE driver_msg;
+// 			driver_msg.type = DEV_OPEN;
+// 			int dev = pin->i_start_sect;
+// 			driver_msg.DEVICE = MINOR(dev);
+// 			assert(MAJOR(dev) == 4);
+// 			assert(dd_map[MAJOR(dev)].driver_nr != INVALID_DRIVER);
+// 			send_recv(BOTH,
+// 				  dd_map[MAJOR(dev)].driver_nr,
+// 				  &driver_msg);
+// 		}
+// 		else if (imode == I_DIRECTORY) {
+// 			// assert(pin->i_num == ROOT_INODE);
+// 		}
+// 		else {
+// 			assert(pin->i_mode == I_REGULAR);
+// 		}
+// 	}
+// 	else {
+// 		return -1;
+// 	}
+
+// 	return fd;
+// }
 
 /*****************************************************************************
  *                                create_file
