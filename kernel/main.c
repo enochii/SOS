@@ -469,9 +469,10 @@ void shabby_shell(const char *tty_name)
                 }
                 else if (strcmp(cmd, "mkfile") == 0||strcmp(cmd, "touch")==0)
                 {
-                    createFilepath(arg1);
-                    createFile(filepath, arg2, 1);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // createFile(filepath, arg2, 1);
+                    // clearArr(filepath, 128);
+                    CreateFile(current_dirr, arg1);
                 }
 		else if(strcmp(cmd, "mkdir") == 0)
 		{
@@ -1098,40 +1099,59 @@ void createFolder(char* filepath,int flag)
 		addLog(filepath);
 }
 
-/* Create File */
-void createFile(char *filepath, char *buf, int flag)
-{
-    int fd = -1, i = 0, pos;
-    pos = getPos();
-    char f[7];
-    strcpy(f, "empty");
-    f[5] = '0' + pos;
-    f[6] = '\0';
-    if (strcmp(files[pos], f) == 0 && flag == 1)
-    {
-        unlink(files[pos]);
-    }
+/* old Create File */
+// void old_createFile(char *filepath, char *buf, int flag)
+// {
+//     int fd = -1, i = 0, pos;
+//     pos = getPos();
+//     char f[7];
+//     strcpy(f, "empty");
+//     f[5] = '0' + pos;
+//     f[6] = '\0';
+//     if (strcmp(files[pos], f) == 0 && flag == 1)
+//     {
+//         unlink(files[pos]);
+//     }
 
-    fd = open(filepath, O_CREAT | O_RDWR);
-    printf("file name: %s content: %s\n", filepath, buf);
+//     fd = open(filepath, O_CREAT | O_RDWR);
+//     printf("file name: %s content: %s\n", filepath, buf);
+//     if (fd == -1)
+//     {
+//         printf("Fail, please check and try again!!\n");
+//         return;
+//     }
+//     if (fd == -2)
+//     {
+//         printf("Fail, file exsists!!\n");
+//         return;
+//     }
+//     //printf("%s\n", buf);
+
+//     write(fd, buf, strlen(buf));
+//     close(fd);
+
+//     /* add log */
+//     if (flag == 1)
+//         addLog(filepath);
+// }
+
+void CreateFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    int fd = open(absoPath, O_CREAT | O_RDWR);
+
     if (fd == -1)
     {
-        printf("Fail, please check and try again!!\n");
+        printf("Failed to create a new file with name %s\n", file);
         return;
     }
-    if (fd == -2)
-    {
-        printf("Fail, file exsists!!\n");
-        return;
-    }
-    //printf("%s\n", buf);
 
-    write(fd, buf, strlen(buf));
+    char buf[1] = {0};
+    write(fd, buf, 1);
+    printf("File created: %s (fd %d)\n", file, fd);
     close(fd);
-
-    /* add log */
-    if (flag == 1)
-        addLog(filepath);
 }
 
 /*Get into the fold*/
