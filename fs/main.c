@@ -62,6 +62,9 @@ PUBLIC void task_fs()
 		case UNLINK:
 			fs_msg.RETVAL = do_unlink();
 			break;
+		case LS:
+			fs_msg.RETVAL = do_ls();
+			break;
 		case RESUME_PROC:
 			src = fs_msg.PROC_NR;
 			break;
@@ -94,6 +97,7 @@ PUBLIC void task_fs()
 		msg_name[FORK]   = "FORK";
 		msg_name[EXIT]   = "EXIT";
 		msg_name[STAT]   = "STAT";
+		msg_name[LS] = "LS";
 
 		switch (msgtype) {
 		case UNLINK:
@@ -108,6 +112,7 @@ PUBLIC void task_fs()
 		case EXIT:
 		case LSEEK:
 		case STAT:
+		case LS:
 			break;
 		case RESUME_PROC:
 			break;
@@ -171,6 +176,7 @@ PRIVATE void init_fs()
 	assert(sb->magic == MAGIC_V1);
 
 	root_inode = get_inode(ROOT_DEV, ROOT_INODE);
+
 }
 
 /*****************************************************************************

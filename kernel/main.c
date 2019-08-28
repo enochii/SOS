@@ -516,7 +516,9 @@ void shabby_shell(const char *tty_name)
                 /* ls */
                 else if (strcmp(cmd, "ls") == 0)
                 {
-                    ls();
+                    // ls();
+                    printf("%s\n", current_dirr);
+                    ls(current_dirr);
                 }
                 else if (strcmp(cmd, "proc") == 0)
                 {
@@ -1470,8 +1472,8 @@ void pathFilter(char* bufr)
 	}
 }
 
-/* Ls */
-void ls()
+/* old Ls */
+void old_ls()
 {
 	int fd = -1, n;
 	char bufr[1024];
@@ -1501,6 +1503,21 @@ void ls()
 	}
 	else
 		printf("Permission deny!\n");
+}
+
+/* ls */
+int ls(char* pathName)  // 传入当前目录，发送当前目录下的文件名
+{
+    MESSAGE msg;
+    msg.type = LS;  // ls类型的消息（这个说法怪怪的）
+
+    msg.PATHNAME = (void*)pathName;
+    msg.NAME_LEN = strlen(pathName);
+    msg.FLAGS = 0;
+
+    send_recv(BOTH, TASK_FS, &msg);
+
+    return msg.RETVAL;
 }
 
 /* Show Process */

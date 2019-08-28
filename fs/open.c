@@ -431,3 +431,10 @@ PRIVATE void new_dir_entry(struct inode *dir_inode,int inode_nr,char *filename)
 	/* update dir inode */
 	sync_inode(dir_inode);
 }
+
+
+int do_ls()
+{
+	printl("ok!\n");
+	return 0;
+}
