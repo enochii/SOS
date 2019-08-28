@@ -1,10 +1,8 @@
-// #include "stdlib.h"
-// #include "stdarg.h"
-// #include "stdio.h"
+/*
+    nscanf.c : like vsprintf, called by scanf(), it do the parsing job for scanf
+    @author: Shi chenghang 2019/08
+ */
 
-// #include "string.h"
-// #include <ctype.h>
-// #include <errno.h> //for returning error codes to compare with test_strtol
 #include <limits.h> //for LONG_MAX & LONG_MIN
 #include "stdbool.h"
 
@@ -37,6 +35,9 @@ static int isalpha(char c)
 
 static long _strtol (const char *nPtr, char **endPtr, int base);
 
+/*
+    nscanf: supports %c(char)/ %d %x(int) / %s(string)
+ */
 int nscanf(const char *str, const char *fmt, va_list arg)
 {
     int cSuccess = 0;
@@ -127,6 +128,10 @@ int nscanf(const char *str, const char *fmt, va_list arg)
 
 
 #define NUL '\0'
+
+/*
+    implementation of strtol, called by nscanf
+ */
 
 static long _strtol (const char *nPtr, char **endPtr, int base) {
     //checking if the base value is correct

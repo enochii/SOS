@@ -4,6 +4,8 @@
  * @brief  
  * @author Forrest Y. Yu
  * @date   2005
+ * 
+ * Shi Chenghang 2019/08
  *****************************************************************************
  *****************************************************************************/
 
@@ -44,6 +46,7 @@ PUBLIC void clock_handler(int irq)
 		p_proc_ready->run_count++;
 	}
 
+	//inc the count
 	ano_inc_tick();
 
 	//if has run for 20 time,lowing the priority
@@ -69,6 +72,7 @@ PUBLIC void clock_handler(int irq)
 		return;
 	}
 
+	//upper all proc to avoid hunger
 	if(need_to_flush()){
 		flush_proc();
 	}

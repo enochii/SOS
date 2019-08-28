@@ -3,6 +3,10 @@
     
     ano_schedule, meaning "another shedule", tries to add a multi-queue schdule policy which
     based on the original codes to SOS
+
+    @reference: Opreating System: Three Easy Pieces
+    multi-queue policy tries to give more cpu time to the proc with more io opearation,
+    which we think they are interacting with user
  */
 
 // #include "ano_schedule.h"
@@ -42,11 +46,17 @@ static int cur_schd_policy=POLICY_MULTI_QUE;
 
 PUBLIC int need_to_flush()
 {
+    if(cur_schd_policy==POLICY_PRI){
+        return;
+    }
     return ano_tick_cnt>=NEED_TO_FLASH;
 }
 
 PUBLIC void ano_inc_tick()
 {
+    if(cur_schd_policy==POLICY_PRI){
+        return;
+    }
     ++ano_tick_cnt;
 }
 

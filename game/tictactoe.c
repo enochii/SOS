@@ -1,3 +1,7 @@
+/* tictactoe.c : a naive game
+	modified by Shi Chenghang, 2019/08
+ */
+
 #include "stdio.h"
 
 #define SIZE 3
@@ -53,7 +57,7 @@ int main_tic()
 		while(1){
 			printf("Please input(x y):");
 			int c=scanf("%d %d",&x,&y);
-			printf("count: %d\n", c);
+			// printf("count: %d\n", c);
 			if(c==0){
 				printf("Do u wana quit?[y/n]\n");
 				char ch='n';
@@ -281,7 +285,7 @@ static int check()
     //per col
     for(int i=0;i<SIZE;i++){
         if(mat[0][i]==mat[1][i]&&mat[1][i]==mat[2][i]&&mat[2][i]!=star){
-            printf("winner: %d, %c\n",i, mat[2][i]);
+            // printf("winner: %d, %c\n",i, mat[2][i]);
             return mat[2][i]==o;
         }
     }

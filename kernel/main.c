@@ -6,6 +6,8 @@ Forrest Yu, 2005
 Yakang Li, 2018
 Jinrong Huang, 2018
 Dinghow Yang, 2018
+
+Shi Chenghang 2019/08
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include "type.h"
