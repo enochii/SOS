@@ -74,7 +74,11 @@ PUBLIC int do_open()
 	if (i >= NR_FILE_DESC)
 		panic("f_desc_table[] is full (PID:%d)", proc2pid(pcaller));
 
+	// printl("pathname is %s\n", pathname);
+
 	int inode_nr = search_file(pathname);
+
+	// printl("inode_nr is %d\n", inode_nr);
 
 	struct inode * pin = 0;
 
