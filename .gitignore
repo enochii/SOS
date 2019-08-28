@@ -11,3 +11,5 @@ README-OLD.md
 img/
 
 *.lock
+
+test/

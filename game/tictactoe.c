@@ -1,4 +1,4 @@
-#include<stdio.h> 
+#include "stdio.h"
 
 #define SIZE 3
 
@@ -29,39 +29,53 @@ int main_tic()
 	display();
 	for(int i=0;i<5;i++)
 	{
-		printf("Please input(x y):");
-		char input[4];
-		for(int i=0;i<4;i++)
-		{
-		    input[i]=0;	
+		
+		// char input[4];
+		// for(int i=0;i<4;i++)
+		// {
+		//     input[i]=0;	
 
-		}
-		char x,y;
-		//scanf("%d,%d",&x,&y);
-		int r=read(0,input,4);
-		input[r]=0;
-		x=input[0]-48;
-		y=input[2]-48;
+		// }
+		
+		// printf("&x: %d\n", (int)(&x));
+		// printf("scanf result: %d %d", x, y);
+		// int r=read(0,input,4);
+		// input[r]=0;
+		// x=input[0]-48;
+		// y=input[2]-48;
 	
-		if(x+48=='q'){
-		   printf("Game Over\n"); 
-		   return 0;
+		// if(x+48=='q'){
+		//    printf("Game Over\n"); 
+		//    return 0;
 		    
-		}
+		// }
+		int x,y;
 		while(1){
-			if(x>0&&x<4&&y>0&&y<4&&(scane[x-1][y-1]=='*')) break;
-			else {
-				printf("Error,input again:");
-				int r=read(0,input,4);
-				input[r]=0;
-				x=input[0]-48;
-				y=input[2]-48;
-				if(x+48=='q'){
-		   		    printf("Game Over\n"); 
-		   		    return 0;
-		    
+			printf("Please input(x y):");
+			int c=scanf("%d %d",&x,&y);
+			printf("count: %d\n", c);
+			if(c==0){
+				printf("Do u wana quit?[y/n]\n");
+				char ch='n';
+				scanf("%c", &ch);
+				if(ch=='y'){
+					printf("Quit\n");
+					return;
 				}
+				continue;//else
 			}
+			if(x>0&&x<4&&y>0&&y<4&&(scane[x-1][y-1]=='*')) break;
+			
+			printf("Error,input again:");
+				// int r=read(0,input,4);
+				// input[r]=0;
+				// x=input[0]-48;
+				// y=input[2]-48;
+				// if(x+48=='q'){
+		   		//     printf("Game Over\n"); 
+		   		//     return 0;
+				// }
+			
 		}
 		scane[x-1][y-1]='o';
 		grade[x-1][y-1]=4;

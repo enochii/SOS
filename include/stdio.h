@@ -101,6 +101,10 @@ PUBLIC  int     printl(const char *fmt, ...);
 PUBLIC  int     vsprintf(char *buf, const char *fmt, va_list args);
 PUBLIC	int	sprintf(char *buf, const char *fmt, ...);
 
+/* scanf.c */
+PUBLIC int nscanf(const char *str, const char *fmt, va_list arg);
+PUBLIC int scanf(const char *fmt, ...);
+
 /*--------*/
 /* 库函数 */
 /*--------*/

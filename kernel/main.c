@@ -550,11 +550,21 @@ void shabby_shell(const char *tty_name)
         {
             change_schd_policy();
         }
-                else
-                {
-                    printf("i cannot understand your cmd\n");
-                    continue;
-                }
+        //test handmade scanf
+        else if(strcmp(cmd, "tscanf")==0){
+            printf("input format like : %%s%%d%%c%%c%%d%%s\n");
+            char input1[128], input2[128];
+            int d1, d2;
+            char c1, c2;
+            scanf("%s%d%c%c%d%s",input1, &d1, &c1, &c2, &d2, input2);
+
+            printf("%s\n%d\n%c\n%c\n%d\n%s\n",input1, d1, c1, c2, d2, input2);
+        }
+        else
+        {
+            printf("i cannot understand your cmd\n");
+            continue;
+        }
             }
         }
         else
