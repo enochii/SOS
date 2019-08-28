@@ -22,6 +22,7 @@ Dinghow Yang, 2018
 
 #include "ano_schdule.h"
 
+
 /*****************************************************************************
 *                               kernel_main
 *****************************************************************************/
@@ -477,9 +478,8 @@ void shabby_shell(const char *tty_name)
 			// createFilepath(strcat(arg1,"*"));
 			// createFolder(filepath, 1);
 			// clearArr(filepath, 128);
-            // TODO: 
-            printf("%s", arg1);
-            // CreateDir(current_dirr, arg1)
+
+            CreateDir(current_dirr, arg1);
 		}
 		else if (strcmp(cmd, "cd") == 0) 
 		{
@@ -627,12 +627,61 @@ void clearArr(char *arr, int length)
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-File system
+Multilevel File System
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Dinghow Yang, 2018
-Attention!Out muti-class file system is basd on string matching actually
-, so you can rewrite a real one by yourself =。=
+Wang Liang, 2019
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+int mkdir(char* path)
+{
+    MESSAGE msg;
+    msg.type = MKDIR;
+
+    msg.PATHNAME = (void*)path;
+    msg.NAME_LEN = strlen(path);
+    msg.FLAGS = 0;
+
+    send_recv(BOTH, TASK_FS, &msg);
+
+    return msg.RETVAL;
+}
+
+/*****************************************************************************
+ *                                convert_to_absolute
+ *                      将传入的路径和文件名组合成一个完整的绝对路径
+ *****************************************************************************/
+PUBLIC void convert_to_absolute(char* dest, char* path, char* file)
+{
+    int i=0, j=0;
+    while (path[i] != 0)  // 写入路径
+    {
+        dest[j] = path[i];
+        j++;
+        i++;
+    }
+    i = 0;
+    while (file[i] != 0)  // 写入文件名
+    {
+        dest[j] = file[i];
+        j++;
+        i++;
+    }
+    dest[j] = 0;  // 结束符
+}
+
+void CreateDir(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int fd = open(absoPath, O_RDWR);
+
+    if (fd != -1)
+    {
+        printf("Failed to create a new directory with name %s\n", file);
+        return;
+    }
+    mkdir(absoPath);
+}
 
 /* Get File Pos */
 int getPos()
@@ -2066,4 +2115,8 @@ int win(){
 	if(sum==23) return 1;
 	else return 0;
 }
+
+
+
+
 
