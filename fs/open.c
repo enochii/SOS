@@ -435,6 +435,62 @@ PRIVATE void new_dir_entry(struct inode *dir_inode,int inode_nr,char *filename)
 
 int do_ls()
 {
-	printl("ok!\n");
+	// printl("ok!\n");
+	char pathName[MAX_PATH];
+
+	// 取得message中的信息
+	int flages = fs_msg.FLAGS;
+	int name_len = fs_msg.NAME_LEN;
+	int source = fs_msg.source;
+	assert(name_len < MAX_PATH);  // 路径名称长度不得超过最大长度
+
+	phys_copy((void*)va2la(TASK_FS, pathName), (void*)va2la(source, fs_msg.PATHNAME), name_len);
+    pathName[name_len] = 0;
+
+	// printl("%s\n", pathName);
+
+	int i, j;
+
+    //struct inode * dir_inode = root_inode;
+    struct inode * dir_inode;  // 需要令它指向当前的目录节点
+    char fileName[20];
+    strip_path(fileName, pathName,&dir_inode);
+
+	int dir_blk0_nr = dir_inode->i_start_sect;
+    int nr_dir_blks = (dir_inode->i_size + SECTOR_SIZE - 1) / SECTOR_SIZE;
+    int nr_dir_entries = dir_inode->i_size / DIR_ENTRY_SIZE;
+    int m = 0;
+
+	struct dir_entry * pde;
+	struct inode* new_inode;  // 指向每一个被遍历到的节点
+
+    printl("\ninode    type     filename\n");
+    printl("============================\n");
+
+	for (i = 0; i < nr_dir_blks; i++)
+    {
+        RD_SECT(dir_inode->i_dev, dir_blk0_nr + i);
+
+        pde = (struct dir_entry *)fsbuf;
+        for (j = 0; j < SECTOR_SIZE / DIR_ENTRY_SIZE; j++, pde++)
+        {
+			if (pde->inode_nr == 0)
+				continue;
+			// if (!pde->type && pde->type == 'd')
+            // 	printl("  %2d     [dir]    %s\n", pde->inode_nr , pde->name);
+			// else
+			// 	printl("  %2d     file     %s\n", pde->inode_nr , pde->name);
+            if (++m >= nr_dir_entries)
+			{
+                printl("\n");
+                break;
+            }
+        }
+        if (m > nr_dir_entries) //[> all entries have been iterated <]
+            break;
+    }
+
+    printl("============================\n");
+
 	return 0;
 }

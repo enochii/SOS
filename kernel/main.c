@@ -370,7 +370,7 @@ void shabby_shell(const char *tty_name)
 	if(UserState == 3)
 		printf("[Admin@SOS]%s%s# ",currentUser,currentFolder);
 	else	
-		printf("[%s@SOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
+		printf("[%s@SOS]%s$ ",currentUser, current_dirr);
         //write(1, "$ ", 2);
         int r = read(0, rdbuf, 70);
         rdbuf[r] = 0;
