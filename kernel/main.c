@@ -484,8 +484,9 @@ void shabby_shell(const char *tty_name)
 		}
 		else if (strcmp(cmd, "cd") == 0) 
 		{
-			createFilepath(arg1);
-			openFolder(filepath,arg1);
+			// createFilepath(arg1);
+			// openFolder(filepath,arg1);
+            GoDir(current_dirr, arg1);
 		}
                 else if (strcmp(cmd, "rd") == 0)
                 {
@@ -2134,6 +2135,75 @@ int win(){
 	}
 	if(sum==23) return 1;
 	else return 0;
+}
+
+void GoDir(char* path, char* file)
+{
+    int flag = 0;  // 判断是进入下一级目录还是返回上一级目录
+    char newPath[512] = {0};
+    if (file[0] == '.' && file[1] == '.')  // cd ..返回上一级目录
+    {
+        flag = 1;
+        int pos_path = 0;
+        int pos_new = 0;
+        int i = 0;
+        char temp[128] = {0};  // 用于存放某一级目录的名称
+        while (path[pos_path] != 0)
+        {
+            if (path[pos_path] == '/')
+            {
+                pos_path++;
+                if (path[pos_path] == 0)  // 已到达结尾
+                    break;
+                else
+                {
+                    temp[i] = '/';
+                    temp[i + 1] = 0;
+                    i = 0;
+                    while (temp[i] != 0)
+                    {
+                        newPath[pos_new] = temp[i];
+                        temp[i] = 0;  // 抹掉
+                        pos_new++;
+                        i++;
+                    }
+                    i = 0;
+                }
+            }
+            else
+            {
+                temp[i] = path[pos_path];
+                i++;
+                pos_path++;
+            }
+        }
+    }
+    char absoPath[512];
+    char temp[512];
+    int pos = 0;
+    while (file[pos] != 0)
+    {
+        temp[pos] = file[pos];
+        pos++;
+    }
+    temp[pos] = '/';
+    temp[pos + 1] = 0;
+    if (flag == 1)  // 返回上一级目录
+    {
+        temp[0] = 0;
+        convert_to_absolute(absoPath, newPath, temp);
+    }
+    else  // 进入下一级目录
+        convert_to_absolute(absoPath, path, temp);
+
+    // TODO: 修改 open，实现 cd 功能
+    printf("%s\n", absoPath);
+
+    int fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+        printf("%s is not a directory!\n", absoPath);
+    else
+        memcpy(path, absoPath, 512);
 }
 
 
