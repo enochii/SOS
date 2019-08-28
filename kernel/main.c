@@ -29,6 +29,7 @@ Dinghow Yang, 2018
 * jmp from kernel.asm::_start.
 *
 *****************************************************************************/
+char current_dirr[512] = "/";
 
 char currentUser[128] = "/";
 char currentFolder[128] = "|";
@@ -301,7 +302,7 @@ void shabby_shell(const char *tty_name)
     int fd_stdout = open(tty_name, O_RDWR);
     assert(fd_stdout == 1);
 
-    char rdbuf[128]; //读取的命令
+    char rdbuf[256]; //读取的命令
     char cmd[128];   //指令
     char arg1[128];  //参数1
     char arg2[128];  //参数2
@@ -367,9 +368,9 @@ void shabby_shell(const char *tty_name)
         clearArr(arg2, 128);
         clearArr(buf, 1024);
 	if(UserState == 3)
-		printf("[Admin@YuiOS]%s%s# ",currentUser,currentFolder);
+		printf("[Admin@SOS]%s%s# ",currentUser,currentFolder);
 	else	
-		printf("[%s@YuiOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
+		printf("[%s@SOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
         //write(1, "$ ", 2);
         int r = read(0, rdbuf, 70);
         rdbuf[r] = 0;
@@ -473,9 +474,12 @@ void shabby_shell(const char *tty_name)
                 }
 		else if(strcmp(cmd, "mkdir") == 0)
 		{
-			createFilepath(strcat(arg1,"*"));
-			createFolder(filepath, 1);
-			clearArr(filepath, 128);
+			// createFilepath(strcat(arg1,"*"));
+			// createFolder(filepath, 1);
+			// clearArr(filepath, 128);
+            // TODO: 
+            printf("%s", arg1);
+            // CreateDir(current_dirr, arg1)
 		}
 		else if (strcmp(cmd, "cd") == 0) 
 		{
