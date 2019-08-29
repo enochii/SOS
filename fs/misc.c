@@ -99,9 +99,14 @@ PUBLIC int search_file(char * path)
 	char filename[MAX_PATH];
 	memset(filename, 0, MAX_FILENAME_LEN);
 	struct inode * dir_inode;
-	if (strip_path(filename, path, &dir_inode) != 0)
-		return 0;
 
+	int val = strip_path(filename, path, &dir_inode);
+
+	// printl("strip_paht value is %d\n", val);
+
+	if (val != 0)
+		return 0;
+	// printl("i get here\n");
 	if (filename[0] == 0)	/* path: "/" */
 		return dir_inode->i_num;
 
@@ -195,8 +200,8 @@ PUBLIC int strip_path(char * filename, const char * pathname,
 {
     const char * s = pathname;
     char * t = filename;
-	// printl("pathname: %s\n", pathname);
-	// printl("filename: %s\n", filename);
+	// printl("strip_path(): pathname: %s\n", pathname);
+	// printl("strip_path(): filename: %s\n", filename);
 
 	if (s == 0)
         return -1;
@@ -210,11 +215,15 @@ PUBLIC int strip_path(char * filename, const char * pathname,
     int i, j;
 
     while(*s){
+		// printl("strip_path(): s is %s\n", s);
         if(*s == '/'){
             int flag = 0;
             dir_blk0_nr = pinode_now->i_start_sect;
             nr_dir_blks = (pinode_now->i_size + SECTOR_SIZE - 1) / SECTOR_SIZE;
             nr_dir_entries = pinode_now->i_size / DIR_ENTRY_SIZE; 
+
+			// printl("inode num is %d\n", pinode_now->i_num);
+			// printl("nr_dir_entries is %d\n", nr_dir_entries);
 
             m = 0;
             pde = 0;
@@ -236,14 +245,28 @@ PUBLIC int strip_path(char * filename, const char * pathname,
                             break;
                         }
                     }
-                    if (++m > nr_dir_entries)
-                        return -1;
+					// printl("m is %d\n", m);
+                    // if (++m > nr_dir_entries)
+					// {
+						
+					// 	printl("place 1 and m is %d ---- nr_dir_entries is %d\n", m, nr_dir_entries);
+					// 	return -1;
+					// }
+                        
                 }
                 if (m > nr_dir_entries || flag==0) 
-                    return -1;
+				{
+					// printl("place 2\n");
+					return -1;
+				}
+                    
             }
             if(flag == 0)
-                return -1;
+			{
+				// printl("place 3\n");
+				return -1;
+			}
+               
             t = filename;
 
             s++;

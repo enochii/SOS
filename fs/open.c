@@ -287,6 +287,7 @@ PRIVATE struct inode * create_file(char * path, int flags)
 	else
 		new_dir_entry(dir_inode, newino->i_num, filename,'f');
 
+	// printl("newino is %d\n", newino->i_num);
 	return newino;
 }
 
@@ -568,7 +569,9 @@ int do_ls()
     //struct inode * dir_inode = root_inode;
     struct inode * dir_inode;  // 需要令它指向当前的目录节点
     char fileName[20];
-    strip_path(fileName, pathName,&dir_inode);
+    // strip_path(fileName, pathName,&dir_inode);
+
+	// printl("now dir inode is point to %d\n", dir_inode->i_num);
 
 	int dir_blk0_nr = dir_inode->i_start_sect;
     int nr_dir_blks = (dir_inode->i_size + SECTOR_SIZE - 1) / SECTOR_SIZE;
@@ -628,6 +631,8 @@ PUBLIC int do_mkdir()
 
 	phys_copy((void*)va2la(TASK_FS, pathName), (void*)va2la(source, fs_msg.PATHNAME), name_len);
     pathName[name_len] = 0;
+
+	// printl("pahtName is %s\n", pathName);
 
 	struct inode* dir_inode = create_file(pathName, ISDIR);
 	if (dir_inode)

@@ -521,7 +521,7 @@ void shabby_shell(const char *tty_name)
                 else if (strcmp(cmd, "ls") == 0)
                 {
                     // ls();
-                    printf("%s\n", current_dirr);
+                    // printf("%s\n", current_dirr);
                     ls(current_dirr);
                 }
                 else if (strcmp(cmd, "proc") == 0)
@@ -681,9 +681,10 @@ void CreateDir(char* path, char* file)
 
     if (fd != -1)
     {
-        printf("Failed to create a new directory with name %s\n", file);
+        printf("Failed to create a new directory with name %s\n", file);  // 文件夹不能与已有文件重名
         return;
     }
+    // printf("absoPath is %s\n", absoPath);
     mkdir(absoPath);
 }
 
@@ -2263,8 +2264,7 @@ void GoDir(char* path, char* file)
     else  // 进入下一级目录
         convert_to_absolute(absoPath, path, temp);
 
-    // TODO: 修改 open，实现 cd 功能
-    printf("%s\n", absoPath);
+    // printf("%s\n", absoPath);
 
     int fd = open(absoPath, O_RDWR);
     if (fd == -1)
