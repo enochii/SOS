@@ -490,9 +490,10 @@ void shabby_shell(const char *tty_name)
 		}
                 else if (strcmp(cmd, "rd") == 0)
                 {
-                    createFilepath(arg1);
-                    readFile(filepath);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // readFile(filepath);
+                    // clearArr(filepath, 128);
+                    ReadFile(current_dirr, arg1);
                 }
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
@@ -2217,4 +2218,28 @@ void DeleteFile(char* path, char* file)
         printf("%s deleted!\n", file);
     else
         printf("Failed to delete %s!\n", file);
+}
+
+void ReadFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+    {
+        printf("Failed to open %s!\n", file);
+        return;
+    }
+
+    char buf[4096];
+    int n = read(fd, buf, 4096);
+    if (n == -1)  // 读取文件内容失败
+    {
+        printf("An error has occured in reading the file!\n");
+        close(fd);
+        return;
+    }
+
+    printf("%s\n", buf);
+    close(fd);
 }
