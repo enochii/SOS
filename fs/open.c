@@ -569,7 +569,7 @@ int do_ls()
     //struct inode * dir_inode = root_inode;
     struct inode * dir_inode;  // 需要令它指向当前的目录节点
     char fileName[20];
-    // strip_path(fileName, pathName,&dir_inode);
+    strip_path(fileName, pathName,&dir_inode);
 
 	// printl("now dir inode is point to %d\n", dir_inode->i_num);
 
