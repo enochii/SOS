@@ -505,9 +505,9 @@ void shabby_shell(const char *tty_name)
                 /* edit a file cover */
                 else if (strcmp(cmd, "wt") == 0)
                 {
-                    createFilepath(arg1);
-                    editCover(filepath, arg2);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    new_editCover(current_dirr, arg1, arg2);
+                    // clearArr(filepath, 128);
                 }
                 /* delete a file */
                 else if (strcmp(cmd, "del") == 0)
@@ -1272,12 +1272,40 @@ void editCover(char *filepath, char *buf)
         empty[i] = '\0';
 
     fd = open(filepath, O_RDWR);
-    //printf("%d",fd);
+    printf("%d\n",fd);
     if (fd == -1)
         return;
     write(fd, empty, 1024);
     close(fd);
     fd = open(filepath, O_RDWR);
+    write(fd, buf, strlen(buf));
+    close(fd);
+}
+
+/* new Edit File Cover */
+void new_editCover(char *path, char *file, char *buf)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    if (vertify() == 0)
+        return;
+
+    int fd = -1;
+    int n, i = 0;
+    char bufr[1024] = "";
+    char empty[1024];
+
+    for (i = 0; i < 1024; i++)
+        empty[i] = '\0';
+
+    fd = open(absoPath, O_RDWR);
+    // printf("%d\n",fd);
+    if (fd == -1)
+        return;
+    write(fd, empty, 1024);
+    close(fd);
+    fd = open(absoPath, O_RDWR);
     write(fd, buf, strlen(buf));
     close(fd);
 }

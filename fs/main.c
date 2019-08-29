@@ -36,7 +36,7 @@ PRIVATE int fs_exit();
  *****************************************************************************/
 PUBLIC void task_fs()
 {
-	printl("Task FS begins.\n");
+	printl("{FS} Task FS begins.\n");
 
 	init_fs();
 
