@@ -498,9 +498,9 @@ void shabby_shell(const char *tty_name)
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
                 {
-                    createFilepath(arg1);
-                    editAppand(filepath, arg2);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    new_editAppand(current_dirr, arg1, arg2);
+                    // clearArr(filepath, 128);
                 }
                 /* edit a file cover */
                 else if (strcmp(cmd, "wt") == 0)
@@ -1252,6 +1252,43 @@ void editAppand(char *filepath, char *buf)
     }
     write(fd, empty, 1024);
     fd = open(filepath, O_RDWR);
+    write(fd, bufr, strlen(bufr));
+    close(fd);
+}
+
+/* new Edit File Appand */
+void new_editAppand(char *path, char *file, char *buf)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    if (vertify() == 0)
+        return;
+
+    int fd = -1;
+    int n, i = 0;
+    char bufr[1024] = "";
+    char empty[1024];
+
+    for (i = 0; i < 1024; i++)
+        empty[i] = '\0';
+    fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+    {
+        printf("Fail, please check and try again!!\n");
+        return;
+    }
+
+    n = read(fd, bufr, 1024);
+    n = strlen(bufr);
+
+    for (i = 0; i < strlen(buf); i++, n++)
+    {
+        bufr[n] = buf[i];
+        bufr[n + 1] = '\0';
+    }
+    write(fd, empty, 1024);
+    fd = open(absoPath, O_RDWR);
     write(fd, bufr, strlen(bufr));
     close(fd);
 }
