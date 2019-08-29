@@ -511,9 +511,10 @@ void shabby_shell(const char *tty_name)
                 /* delete a file */
                 else if (strcmp(cmd, "del") == 0)
                 {
-                    createFilepath(arg1);
-                    deleteFile(filepath);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // deleteFile(filepath);
+                    // clearArr(filepath, 128);
+                    DeleteFile(current_dirr, arg1);
                 }
                 /* ls */
                 else if (strcmp(cmd, "ls") == 0)
@@ -2207,6 +2208,13 @@ void GoDir(char* path, char* file)
 }
 
 
-
-
-
+void DeleteFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int m=unlink(absoPath);
+    if (m == 0)
+        printf("%s deleted!\n", file);
+    else
+        printf("Failed to delete %s!\n", file);
+}
