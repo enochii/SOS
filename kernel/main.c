@@ -1311,6 +1311,7 @@ void new_editAppand(char *path, char *file, char *buf)
         bufr[n + 1] = '\0';
     }
     write(fd, empty, 1024);
+    close(fd);
     fd = open(absoPath, O_RDWR);
     write(fd, bufr, strlen(bufr));
     close(fd);
