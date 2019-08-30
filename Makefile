@@ -37,7 +37,7 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			fs/main.o fs/open.o fs/misc.o fs/read_write.o\
 			fs/link.o \
 			fs/disklog.o \
-			game/tictactoe.o kernel/ano_schdule.o
+			game/tictactoe.o game/boom.o kernel/ano_schdule.o
 LOBJS		=  lib/syscall.o\
 			lib/printf.o lib/vsprintf.o\
 			lib/string.o lib/misc.o\
@@ -45,7 +45,7 @@ LOBJS		=  lib/syscall.o\
 			lib/lseek.o\
 			lib/getpid.o lib/stat.o\
 			lib/fork.o lib/exit.o lib/wait.o lib/exec.o\
-			lib/scanf.o lib/nscanf.o
+			lib/scanf.o lib/nscanf.o lib/date.o
 DASMOUTPUT	= kernel.bin.asm
 
 # All Phony Targets

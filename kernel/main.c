@@ -497,6 +497,12 @@ void shabby_shell(const char *tty_name)
                     // clearArr(filepath, 128);
                     ReadFile(current_dirr, arg1);
                 }
+                else if (strcmp(cmd, "vi") == 0)
+                {
+                    createFilepath(arg1);
+                    textPad(filepath);
+                    clearArr(filepath, 128);
+                }
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
                 {
@@ -541,6 +547,10 @@ void shabby_shell(const char *tty_name)
                 else if (strcmp(cmd, "resume") == 0)
                 {
                     resume(arg1);
+                }
+                else if(strcmp(cmd, "date") == 0)
+                {
+                    my_date();
                 }
                 else if (strcmp(cmd, "tictactoe") == 0||strcmp(cmd, "ttt")==0)
                 {
@@ -2091,131 +2101,131 @@ Boom
 Yakang Li, 2018
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-char map_hidden[9][9]={
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-'*','*','*','*','*','*','*','*','*',
-};
+// char map_hidden[9][9]={
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// '*','*','*','*','*','*','*','*','*',
+// };
 
 
 
-void show_map();
-int win();
+// void show_map();
+// int win();
 
-int mainboom()
-{
-	int i,j;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			map_hidden[i][j]='*';
-		}
-	}
-	char map[9][9]={
-	'X','2','1','1','1','1','1','X','1',
-	'2','X','2','3','X','2','2','2','2',
-	'1','2','X','3','X','3','2','X','1',
-	'1','2','3','3','3','3','X','3','2',
-	'1','X','2','X','3','X','3','3','X',
-	'1','1','3','3','X','3','X','2','1',
-	'1','2','2','X','3','3','3','3','2',
-	'X','3','X','3','3','X','3','X','X',
-	'2','X','3','X','2','1','3','X','3',
-	};
-	printf("Welcome to minesweep!\n");
-	show_map();
+// int mainboom()
+// {
+// 	int i,j;
+// 	for(i=0;i<9;i++){
+// 		for(j=0;j<9;j++){
+// 			map_hidden[i][j]='*';
+// 		}
+// 	}
+// 	char map[9][9]={
+// 	'X','2','1','1','1','1','1','X','1',
+// 	'2','X','2','3','X','2','2','2','2',
+// 	'1','2','X','3','X','3','2','X','1',
+// 	'1','2','3','3','3','3','X','3','2',
+// 	'1','X','2','X','3','X','3','3','X',
+// 	'1','1','3','3','X','3','X','2','1',
+// 	'1','2','2','X','3','3','3','3','2',
+// 	'X','3','X','3','3','X','3','X','X',
+// 	'2','X','3','X','2','1','3','X','3',
+// 	};
+// 	printf("Welcome to minesweep!\n");
+// 	show_map();
 	
-	while(1){
-		printf("Please input(x y):");
-		char input[4];
-		for(int i=0;i<4;i++)
-		{
-		    input[i]=0;	
+// 	while(1){
+// 		printf("Please input(x y):");
+// 		char input[4];
+// 		for(int i=0;i<4;i++)
+// 		{
+// 		    input[i]=0;	
 
-		}
-		char x,y;
-		//scanf("%d,%d",&x,&y);
-		int r=read(0,input,4);
-		input[r]=0;
-		x=input[0]-48;
-		y=input[2]-48;
+// 		}
+// 		char x,y;
+// 		//scanf("%d,%d",&x,&y);
+// 		int r=read(0,input,4);
+// 		input[r]=0;
+// 		x=input[0]-48;
+// 		y=input[2]-48;
 		
-		if(x+48=='q'){
-		   printf("Game Over\n"); 
-		   return 0;
+// 		if(x+48=='q'){
+// 		   printf("Game Over\n"); 
+// 		   return 0;
 		    
-		}
-		while(1){
-			if(x>0&&x<=9&&y>0&&y<=9&&map_hidden[x-1][y-1]=='*') break;
-			else{
-				printf("Error,please input again:");
-				int r=read(0,input,4);
-				input[r]=0;
-				x=input[0]-48;
-				y=input[2]-48;
+// 		}
+// 		while(1){
+// 			if(x>0&&x<=9&&y>0&&y<=9&&map_hidden[x-1][y-1]=='*') break;
+// 			else{
+// 				printf("Error,please input again:");
+// 				int r=read(0,input,4);
+// 				input[r]=0;
+// 				x=input[0]-48;
+// 				y=input[2]-48;
 		
-				if(x+48=='q'){
-				   printf("Game Over\n"); 
-				   return 0;
+// 				if(x+48=='q'){
+// 				   printf("Game Over\n"); 
+// 				   return 0;
 				    
-				}
-			}
-		}
+// 				}
+// 			}
+// 		}
 		
-		int m=x-1;
-		int n=y-1;
+// 		int m=x-1;
+// 		int n=y-1;
 		
-		if(map[m][n]=='X'){
-			printf("Game Over!\n");
-			return 0;
-		}
-		int i,j; 
-		for(i=m-1;i<x+1;i++){
-			if(i>=0&&i<=8){
-				for(j=n-1;j<y+1;j++){
-					if(j>=0&&j<=8){
-						if(map[i][j]!='X')map_hidden[i][j]=map[i][j];
-					}
-				}
-			}
+// 		if(map[m][n]=='X'){
+// 			printf("Game Over!\n");
+// 			return 0;
+// 		}
+// 		int i,j; 
+// 		for(i=m-1;i<x+1;i++){
+// 			if(i>=0&&i<=8){
+// 				for(j=n-1;j<y+1;j++){
+// 					if(j>=0&&j<=8){
+// 						if(map[i][j]!='X')map_hidden[i][j]=map[i][j];
+// 					}
+// 				}
+// 			}
 			
-		}
-		show_map();
-		if(win()){
-			printf("You Win!\n");
-			break;
-		}
-	}
-	return 0;
-}
+// 		}
+// 		show_map();
+// 		if(win()){
+// 			printf("You Win!\n");
+// 			break;
+// 		}
+// 	}
+// 	return 0;
+// }
 
-void show_map()
-{
-	int i,j;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			printf("%c ",map_hidden[i][j]);
-		}
-		printf("\n");
-	}
-}
+// void show_map()
+// {
+// 	int i,j;
+// 	for(i=0;i<9;i++){
+// 		for(j=0;j<9;j++){
+// 			printf("%c ",map_hidden[i][j]);
+// 		}
+// 		printf("\n");
+// 	}
+// }
 
-int win(){
-	int sum=0;
-	int i,j;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			if(map_hidden[i][j]=='*') sum++;
-		}
-	}
-	if(sum==23) return 1;
-	else return 0;
-}
+// int win(){
+// 	int sum=0;
+// 	int i,j;
+// 	for(i=0;i<9;i++){
+// 		for(j=0;j<9;j++){
+// 			if(map_hidden[i][j]=='*') sum++;
+// 		}
+// 	}
+// 	if(sum==23) return 1;
+// 	else return 0;
+// }
 
 void GoDir(char* path, char* file)
 {
@@ -2320,3 +2330,251 @@ void ReadFile(char* path, char* file)
     printf("%s\n", buf);
     close(fd);
 }
+
+int textPad(char* filepath){
+    int fd = 0;
+    int n;
+    char text[1024] = "";
+    char pr[20][128];
+    fd = open(filepath, O_RDWR);
+
+    if(fd == -1)
+    {
+        printf("failed to open file\n");
+        return 0;
+    }
+
+    n = read(fd, text, 1024);
+    text[n] = '\0';
+    close(fd);
+
+    int i = 0, j = 0, k = 0;
+    while(i <= n)
+    {
+        if(text[i] <= 31 && j != 0)
+        {
+            pr[k][j] = '\0';
+            j = 0;
+            k++;
+        }
+        else if(text[i] > 31)
+        {
+            pr[k][j] = text[i];
+            j++;
+        }
+        i++;
+    }
+
+    showPr(k, pr);
+
+        /* display */
+    // printf("*********************** textPad ***********************\n");
+    // printf("      %s                       help: guidance\n",filepath);
+    // printf("=======================================================\n");
+
+    // int mn = 0;
+    // if(k > 9)
+    //     mn = 9;
+    // else
+    //     mn = k;
+    // for(i = 0; i < k; i++)
+    // {
+    //     printf("[%d] %s\n", i, pr[i]);
+    // }
+    // if(k > 99999)
+    // {
+    //     for(i = 10; i < k; i++)
+    //         printf("[%d] %s\n", i, pr[i]);
+    // }
+
+    while(1)
+    {
+        char rdbuf[75];
+        char copy[70];
+        int r = read(0, rdbuf, 75);
+        rdbuf[r] = 0;
+        char cmd[10] = "";
+        int loc = 0;
+        char arg[70] = "";
+        if(rdbuf[0]){
+            i = 0, j = 0, loc = 0;
+            while(rdbuf[i] != ' ' && rdbuf[i] != 0)
+            {
+                cmd[i] = rdbuf[i];
+                i++;
+            }
+            i++;
+
+            while(rdbuf[i] >= '0' && rdbuf[i] <= '9')
+            {
+                loc = loc * 10 + rdbuf[i] - '0';
+                i++;
+                j++;
+            }
+            if(loc < 0 || loc > k){
+                printf("Wrong line number %d. It is unaccessable.\n", loc);
+                continue;
+
+            }
+            if(rdbuf[i] == ' ')
+                i++;
+            j = 0;
+            while(rdbuf[i] != 0)
+            {
+                arg[j] = rdbuf[i];
+                i++;
+                j++;
+            }
+
+            if(strcmp(cmd, "edit") == 0){
+                strcpy(pr[loc], arg);
+
+                printf("edit successfully!\n");
+                printf("%s\n", pr[loc]);
+                showPr(k, pr);
+
+            }
+             else if(strcmp(cmd, "append") == 0){
+
+                k++;
+                printf("k = %d\n", k);
+                strcpy(pr[k], arg);
+                printf("append successfully!\n");
+                showPr(k, pr);
+            }
+
+            else if(strcmp(cmd, "clear") == 0)
+            {
+                printf("this is clear\n");
+                for(int i = 0; i <= k; i++)
+                {
+                    strcpy(pr[i], "");
+                }
+                k = 0;
+                printf("clear successfully!]n");
+                showPr(k, pr);
+            }
+            else if(strcmp(cmd, "insert") == 0){
+                //for(i = k - 1; i > loc; i--)
+                    //strcpy(pr[i + 1], pr[i]);
+                strcat(pr[loc], arg);
+               // k++;
+                printf("insert successfully!\n");
+                       /* display */
+                showPr(k, pr);
+            }
+            else if(strcmp(cmd, "delete") == 0)
+            {
+                strcpy(pr[loc], "");
+                for(i = loc + 1; i < k; i++)
+                {
+                    strcpy(pr[i - 1], pr[i]);
+                }
+                printf("delete successfully\n");
+                k--;
+                showPr(k, pr);
+            }
+            else if(strcmp(cmd, "copy") == 0)
+            {
+                strcpy(copy, pr[loc]);
+                printf("line %d is in the clipboard\n", loc);
+                continue;
+            }
+            else if(strcmp(cmd, "cut") == 0)
+            {
+                strcpy(copy, pr[loc]);
+                strcpy(pr[loc], "");
+                // for(i = loc + 2; i <= k; i++)
+                //     strcpy(pr[i-1],pr[i]);
+                printf("line %d is in the clipboard!\n", loc);
+               // k--;
+                showPr(k, pr);
+            }
+            else if(strcmp(cmd, "clipboard") == 0)
+            {
+                printf("[CLIPBOARD: %s\n", copy);
+                continue;
+            }
+            else if(strcmp(cmd, "paste") == 0){
+                for(i = k; i >= loc; i--)
+                    strcpy(pr[i + 1], pr[i]);
+                strcpy(pr[loc],copy);
+                k++;
+                printf("paste successfully\n");
+                showPr(k, pr);
+            }
+
+            else if(strcmp(cmd, "save") == 0)
+            {
+                editCover(filepath, "");
+                for(i = 0; i <= k; i++)
+                {
+                    editAppand(filepath, pr[i]);
+                    editAppand(filepath, "\n");
+                }
+                printf("save successfully\n");
+                return 0;
+            }
+
+
+                else if (strcmp(cmd, "exit") == 0 ){
+                    return 0;
+                }
+                else if(strcmp(cmd, "help") == 0)
+                {
+                        printf("======================================================\n");
+                        printf("  insert [line] [text] | insert a line.\n");
+                        printf("  edit [line] [text]   | reverse a line.\n");
+                        printf("  append [text]        | append a line at the end.\n");
+                        printf("  delete [line]        | delete a line.\n");
+                        printf("  clear                | delete all texts.\n");
+                        printf("  copy [line]          | copy a line into clipboard.\n");
+                        printf("  cut [line]           | delete a line after copying.\n");
+                        printf("  paste [line]         | insert a line from clipboard.\n");
+                        printf("  clipboard            | print the clipboard.\n");
+                        printf("  help                 | print a guidance of textPad.\n");
+                        printf("-----------------------|------------------------------\n");
+                        printf("  save                 | exit and save the texts.\n");
+                        printf("  exit                 | just exit textPad.\n");
+                        printf("======================================================\n");
+                        continue;
+                }
+
+                    }
+                }
+    return 0;
+
+
+}
+
+void showPr(int k, char (*pr)[128])
+{
+    printf("*********************** textPad ***********************\n");
+    printf("      %s                       help: guidance\n",filepath);
+    printf("=======================================================\n");
+
+    int mn = 0;
+    if(k > 9)
+        mn = 9;
+    else
+        mn = k;
+    for(int i = 0; i <= k; i++)
+    {
+        printf("[%d] %s\n", i, pr[i]);
+    }
+    if(k > 99999)
+    {
+        for(int i = 10; i < k; i++)
+            printf("[%d] %s\n", i, pr[i]);
+    }
+
+}
+
+int my_date()
+{
+    struct time t;
+    date(&t);
+    printf("%d-%d-%dT%d:%d:%d\n", t.year, t.month, t.day, t.hour, t.minute, t.second);
+    return 0;
+}
+
