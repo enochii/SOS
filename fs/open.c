@@ -614,10 +614,10 @@ int do_ls()
 
     printl("============================\n");
 
-	printl("pde->inode_nr: %d\n", temp);
-	printl("pathname: %s\n", pathName);
-	printl("now dir inode is point to %d\n", dir_inode->i_num);
-	printl("sector_size: %d ------  dir_entry_size: %d\n", SECTOR_SIZE, DIR_ENTRY_SIZE);
+	// printl("pde->inode_nr: %d\n", temp);
+	// printl("pathname: %s\n", pathName);
+	// printl("now dir inode is point to %d\n", dir_inode->i_num);
+	// printl("sector_size: %d ------  dir_entry_size: %d\n", SECTOR_SIZE, DIR_ENTRY_SIZE);
 
 	return 0;
 }
