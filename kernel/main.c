@@ -955,12 +955,12 @@ void initFs()
     close(fd);
     fd = open("myUsersPassword", O_RDWR);
     close(fd);
-    fd = open("fileLogs", O_RDWR);
-    close(fd);
-    fd = open("user1", O_RDWR);
-    close(fd);
-    fd = open("user2", O_RDWR);
-    close(fd);
+    // fd = open("fileLogs", O_RDWR);
+    // close(fd);
+    // fd = open("user1", O_RDWR);
+    // close(fd);
+    // fd = open("user2", O_RDWR);
+    // close(fd);
 
 
     /* init users */
@@ -1040,39 +1040,39 @@ void initFs()
     count = 0;
     k = 0;
 
-    /* init files */
-    fd = open("fileLogs", O_RDWR);
-    n = read(fd, buff, 1024);
-    for (i = 0; i <= strlen(buff); i++)
-    {
-        if (buff[i] != ' ')
-        {
-            files[count][k] = buff[i];
-            k++;
-        }
-        else
-        {
-            while (buff[i] == ' ')
-            {
-                i++;
-                if (buff[i] == '\0')
-                {
-                    break;
-                }
-            }
-            if (buff[i] == '\0')
-            {
-                files[count][k] = '\0';
-                count++;
-                break;
-            }
-            i--;
-            files[count][k] = '\0';
-            k = 0;
-            count++;
-        }
-    }
-    close(fd);
+    // /* init files */
+    // fd = open("fileLogs", O_RDWR);
+    // n = read(fd, buff, 1024);
+    // for (i = 0; i <= strlen(buff); i++)
+    // {
+    //     if (buff[i] != ' ')
+    //     {
+    //         files[count][k] = buff[i];
+    //         k++;
+    //     }
+    //     else
+    //     {
+    //         while (buff[i] == ' ')
+    //         {
+    //             i++;
+    //             if (buff[i] == '\0')
+    //             {
+    //                 break;
+    //             }
+    //         }
+    //         if (buff[i] == '\0')
+    //         {
+    //             files[count][k] = '\0';
+    //             count++;
+    //             break;
+    //         }
+    //         i--;
+    //         files[count][k] = '\0';
+    //         k = 0;
+    //         count++;
+    //     }
+    // }
+    // close(fd);
 
     int empty = 0;
     for (i = 0; i < count; i++)

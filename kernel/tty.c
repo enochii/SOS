@@ -317,8 +317,8 @@ PRIVATE void empty(TTY* tty)
 PRIVATE void match(TTY* tty)
 {
     char filepath[1024];
-    int fd = open("user1", O_RDWR);
-    int n = read(fd, filepath, 1024);
+    // int fd = open("user1", O_RDWR);
+    // int n = read(fd, filepath, 1024);
     int startpoint = tty->index - 1;            //from right to left find keypart
     int length = tty->index;
     
@@ -430,7 +430,7 @@ PRIVATE void match(TTY* tty)
     }
 
     //printl("%s\n", filepath);
-    close(fd);
+    // close(fd);
 }
 
 /*****************************************************************************
