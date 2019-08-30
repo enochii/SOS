@@ -38,7 +38,8 @@ OBJS		= kernel/kernel.o kernel/start.o kernel/main.o\
 			fs/link.o \
 			fs/disklog.o \
 			game/tictactoe.o kernel/ano_schdule.o\
-			game/boom.o
+			game/boom.o\
+			lib/date.o
 LOBJS		=  lib/syscall.o\
 			lib/printf.o lib/vsprintf.o\
 			lib/string.o lib/misc.o\
