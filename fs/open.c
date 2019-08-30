@@ -581,14 +581,19 @@ int do_ls()
 	struct dir_entry * pde;
 	struct inode* new_inode;  // 指向每一个被遍历到的节点
 
-    printl("\ninode    type     filename\n");
+    printl("\ninode    type        filename\n");
     printl("============================\n");
+
+	int temp = 0;
 
 	for (i = 0; i < nr_dir_blks; i++)
     {
         RD_SECT(dir_inode->i_dev, dir_blk0_nr + i);
 
         pde = (struct dir_entry *)fsbuf;
+
+		temp = pde->inode_nr;
+		
         for (j = 0; j < SECTOR_SIZE / DIR_ENTRY_SIZE; j++, pde++)
         {
 			if (pde->inode_nr == 0)
@@ -596,7 +601,7 @@ int do_ls()
 			if (pde->type == 'd')
             	printl("  %2d     [Folder]    %s\n", pde->inode_nr , pde->name);
 			else
-				printl("  %2d     File     %s\n", pde->inode_nr , pde->name);
+				printl("  %2d     File        %s\n", pde->inode_nr , pde->name);
             if (++m >= nr_dir_entries)
 			{
                 printl("\n");
@@ -608,6 +613,11 @@ int do_ls()
     }
 
     printl("============================\n");
+
+	printl("pde->inode_nr: %d\n", temp);
+	printl("pathname: %s\n", pathName);
+	printl("now dir inode is point to %d\n", dir_inode->i_num);
+	printl("sector_size: %d ------  dir_entry_size: %d\n", SECTOR_SIZE, DIR_ENTRY_SIZE);
 
 	return 0;
 }
