@@ -42,7 +42,7 @@ int RANK_TICKS[MAX_RANK]={
 };
 
 
-static int cur_schd_policy=POLICY_MULTI_QUE;
+static int cur_schd_policy=POLICY_PRI;
 
 PUBLIC int need_to_flush()
 {

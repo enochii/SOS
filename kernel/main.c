@@ -499,9 +499,9 @@ void shabby_shell(const char *tty_name)
                 }
                 else if (strcmp(cmd, "vi") == 0)
                 {
-                    createFilepath(arg1);
-                    textPad(filepath);
-                    clearArr(filepath, 128);
+                  //  createFilepath(arg1);
+                    textPad(current_dirr, arg1);
+                   // clearArr(filepath, 128);
                 }
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
@@ -1524,6 +1524,7 @@ void moveUser(char *username, char *password)
     if (UserState == 3)
     {
         int i = 0;
+       printf("%s\n%s", users[0], users[1]);
         for (i = 0; i < 2; i++)
         {
             if (strcmp(username, users[i]) == 0 && strcmp(password, passwords[i]) == 0)
@@ -1550,9 +1551,9 @@ void moveUser(char *username, char *password)
                     }
                     else
                     {
-                        deletefile[count] = '\0';
-                        createFilepath(deletefile);
-                        deleteFile(filepath);
+                       // deletefile[count] = '\0';
+                       // createFilepath(deletefile);
+                      //  deleteFile(filepath);
                         count = 0;
                     }
                 }
@@ -2331,12 +2332,14 @@ void ReadFile(char* path, char* file)
     close(fd);
 }
 
-int textPad(char* filepath){
+int textPad(char* path, char *file){
     int fd = 0;
     int n;
     char text[1024] = "";
     char pr[20][128];
-    fd = open(filepath, O_RDWR);
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    fd = open(absoPath, O_RDWR);
 
     if(fd == -1)
     {
@@ -2451,7 +2454,7 @@ int textPad(char* filepath){
                     strcpy(pr[i], "");
                 }
                 k = 0;
-                printf("clear successfully!]n");
+                printf("clear successfully!]\n");
                 showPr(k, pr);
             }
             else if(strcmp(cmd, "insert") == 0){
@@ -2506,11 +2509,11 @@ int textPad(char* filepath){
 
             else if(strcmp(cmd, "save") == 0)
             {
-                editCover(filepath, "");
+                new_editCover(current_dirr, file, "");
                 for(i = 0; i <= k; i++)
                 {
-                    editAppand(filepath, pr[i]);
-                    editAppand(filepath, "\n");
+                    new_editAppand(current_dirr, file, pr[i]);
+                    new_editAppand(current_dirr,file, "\n");
                 }
                 printf("save successfully\n");
                 return 0;
