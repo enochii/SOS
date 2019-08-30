@@ -276,7 +276,15 @@ PRIVATE struct inode * create_file(char * path, int flags)
 	int inode_nr = alloc_imap_bit(dir_inode->i_dev);
 	int free_sect_nr = alloc_smap_bit(dir_inode->i_dev,
 					  NR_DEFAULT_FILE_SECTS);
+	// if (inode_nr == 0 || free_sect_nr ==0)
+	// {
+	// 	int inode_nr = alloc_imap_bit(dir_inode->i_dev);
+	// 	int free_sect_nr = alloc_smap_bit(dir_inode->i_dev,
+	// 				  NR_DEFAULT_FILE_SECTS);
+	// }
 	struct inode* newino;
+
+	// printl("i: %d ----- s: %d", inode_nr, free_sect_nr);
 	if (flags == ISDIR)
 		newino = new_inode(dir_inode->i_dev, inode_nr, free_sect_nr, I_DIRECTORY);
 	else
@@ -424,6 +432,7 @@ PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc)
 		/* byte offset in current sect */
 		for (j = 0; j < SECTOR_SIZE && nr_sects_to_alloc > 0; j++) {
 			k = 0;
+			// printl("fsbuf[j]: %d\n", fsbuf[j]);
 			if (!free_sect_nr) {
 				/* loop until a free bit is found */
 				if (fsbuf[j] == 0xFF) continue;
@@ -447,7 +456,7 @@ PRIVATE int alloc_smap_bit(int dev, int nr_sects_to_alloc)
 			break;
 	}
 
-	//assert(nr_sects_to_alloc == 0);
+	// assert(nr_sects_to_alloc == 0);
 
 	return free_sect_nr;
 }
@@ -614,10 +623,12 @@ int do_ls()
 
     printl("============================\n");
 
-	printl("pde->inode_nr: %d\n", temp);
-	printl("pathname: %s\n", pathName);
-	printl("now dir inode is point to %d\n", dir_inode->i_num);
-	printl("sector_size: %d ------  dir_entry_size: %d\n", SECTOR_SIZE, DIR_ENTRY_SIZE);
+	// printl("pde->inode_nr: %d\n", temp);
+	// printl("dir_inode->i_num: %d\n", dir_inode->i_num);
+	// printl("dir_inode->i_dev: %d ------- dir_blk0_nr: %d\n", dir_inode->i_dev, dir_blk0_nr);
+	// printl("pathname: %s\n", pathName);
+	// printl("now dir inode is point to %d\n", dir_inode->i_num);
+	// printl("sector_size: %d ------  dir_entry_size: %d\n", SECTOR_SIZE, DIR_ENTRY_SIZE);
 
 	return 0;
 }

@@ -342,7 +342,7 @@ void shabby_shell(const char *tty_name)
             {
                 if (strcmp(buf, users[i]) == 0 && strcmp(buf, "empty") != 0)
                 {
-                    printf("Enter %s Password:");
+                    printf("Enter %s's Password:", users[i]);
                     char buf[128];
                     int r = read(0, buf, 128);
                     buf[r] = 0;
@@ -1746,7 +1746,7 @@ void Init()
     printf("Init() is running ...\n");
 
     /* extract `cmd.tar' */
-    untar("/cmd.tar");
+    // untar("/cmd.tar");
     welcomeAnimation();
     welcome();
     //shabby_shell("/dev_tty0");
@@ -2294,7 +2294,11 @@ void GoDir(char* path, char* file)
     if (fd == -1)
         printf("%s is not a directory!\n", absoPath);
     else
+    {
         memcpy(path, absoPath, 512);
+        close(fd);
+    }
+        
 }
 
 
