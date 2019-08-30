@@ -24,6 +24,7 @@ Shi Chenghang 2019/08
 
 #include "ano_schdule.h"
 
+
 /*****************************************************************************
 *                               kernel_main
 *****************************************************************************/
@@ -31,6 +32,7 @@ Shi Chenghang 2019/08
 * jmp from kernel.asm::_start.
 *
 *****************************************************************************/
+char current_dirr[512] = "/";
 
 char currentUser[128] = "/";
 char currentFolder[128] = "|";
@@ -303,7 +305,7 @@ void shabby_shell(const char *tty_name)
     int fd_stdout = open(tty_name, O_RDWR);
     assert(fd_stdout == 1);
 
-    char rdbuf[128]; //读取的命令
+    char rdbuf[256]; //读取的命令
     char cmd[128];   //指令
     char arg1[128];  //参数1
     char arg2[128];  //参数2
@@ -369,9 +371,9 @@ void shabby_shell(const char *tty_name)
         clearArr(arg2, 128);
         clearArr(buf, 1024);
 	if(UserState == 3)
-		printf("[Admin@YuiOS]%s%s# ",currentUser,currentFolder);
+		printf("[Admin@SOS]%s%s# ",currentUser,currentFolder);
 	else	
-		printf("[%s@YuiOS]/%s%s$ ",users[UserState-1],currentUser,currentFolder);
+		printf("[%s@SOS]%s$ ",currentUser, current_dirr);
         //write(1, "$ ", 2);
         int r = read(0, rdbuf, 70);
         rdbuf[r] = 0;
@@ -469,52 +471,60 @@ void shabby_shell(const char *tty_name)
                 }
                 else if (strcmp(cmd, "mkfile") == 0||strcmp(cmd, "touch")==0)
                 {
-                    createFilepath(arg1);
-                    createFile(filepath, arg2, 1);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // createFile(filepath, arg2, 1);
+                    // clearArr(filepath, 128);
+                    CreateFile(current_dirr, arg1);
                 }
 		else if(strcmp(cmd, "mkdir") == 0)
 		{
-			createFilepath(strcat(arg1,"*"));
-			createFolder(filepath, 1);
-			clearArr(filepath, 128);
+			// createFilepath(strcat(arg1,"*"));
+			// createFolder(filepath, 1);
+			// clearArr(filepath, 128);
+
+            CreateDir(current_dirr, arg1);
 		}
 		else if (strcmp(cmd, "cd") == 0) 
 		{
-			createFilepath(arg1);
-			openFolder(filepath,arg1);
+			// createFilepath(arg1);
+			// openFolder(filepath,arg1);
+            GoDir(current_dirr, arg1);
 		}
                 else if (strcmp(cmd, "rd") == 0)
                 {
-                    createFilepath(arg1);
-                    readFile(filepath);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // readFile(filepath);
+                    // clearArr(filepath, 128);
+                    ReadFile(current_dirr, arg1);
                 }
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
                 {
-                    createFilepath(arg1);
-                    editAppand(filepath, arg2);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    new_editAppand(current_dirr, arg1, arg2);
+                    // clearArr(filepath, 128);
                 }
                 /* edit a file cover */
                 else if (strcmp(cmd, "wt") == 0)
                 {
-                    createFilepath(arg1);
-                    editCover(filepath, arg2);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    new_editCover(current_dirr, arg1, arg2);
+                    // clearArr(filepath, 128);
                 }
                 /* delete a file */
                 else if (strcmp(cmd, "del") == 0)
                 {
-                    createFilepath(arg1);
-                    deleteFile(filepath);
-                    clearArr(filepath, 128);
+                    // createFilepath(arg1);
+                    // deleteFile(filepath);
+                    // clearArr(filepath, 128);
+                    DeleteFile(current_dirr, arg1);
                 }
                 /* ls */
                 else if (strcmp(cmd, "ls") == 0)
                 {
-                    ls();
+                    // ls();
+                    // printf("%s\n", current_dirr);
+                    ls(current_dirr);
                 }
                 else if (strcmp(cmd, "proc") == 0)
                 {
@@ -633,12 +643,62 @@ void clearArr(char *arr, int length)
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-File system
+Multilevel File System
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Dinghow Yang, 2018
-Attention!Out muti-class file system is basd on string matching actually
-, so you can rewrite a real one by yourself =。=
+Wang Liang, 2019
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+int mkdir(char* path)
+{
+    MESSAGE msg;
+    msg.type = MKDIR;
+
+    msg.PATHNAME = (void*)path;
+    msg.NAME_LEN = strlen(path);
+    msg.FLAGS = 0;
+
+    send_recv(BOTH, TASK_FS, &msg);
+
+    return msg.RETVAL;
+}
+
+/*****************************************************************************
+ *                                convert_to_absolute
+ *                      将传入的路径和文件名组合成一个完整的绝对路径
+ *****************************************************************************/
+PUBLIC void convert_to_absolute(char* dest, char* path, char* file)
+{
+    int i=0, j=0;
+    while (path[i] != 0)  // 写入路径
+    {
+        dest[j] = path[i];
+        j++;
+        i++;
+    }
+    i = 0;
+    while (file[i] != 0)  // 写入文件名
+    {
+        dest[j] = file[i];
+        j++;
+        i++;
+    }
+    dest[j] = 0;  // 结束符
+}
+
+void CreateDir(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int fd = open(absoPath, O_RDWR);
+
+    if (fd != -1)
+    {
+        printf("Failed to create a new directory with name %s\n", file);  // 文件夹不能与已有文件重名
+        return;
+    }
+    // printf("absoPath is %s\n", absoPath);
+    mkdir(absoPath);
+}
 
 /* Get File Pos */
 int getPos()
@@ -877,7 +937,10 @@ void initFs()
     for (i = 0; i < 500; i++)
         filequeue[i] = 1;
 
+
     initFolder();
+
+
     fd = open("myUsers", O_RDWR);
     close(fd);
     fd = open("myUsersPassword", O_RDWR);
@@ -888,10 +951,14 @@ void initFs()
     close(fd);
     fd = open("user2", O_RDWR);
     close(fd);
+
+
     /* init users */
     fd = open("myUsers", O_RDWR);
     n = read(fd, bufr, 1024);
     bufr[strlen(bufr)] = '\0';
+
+
     for (i = 0; i < strlen(bufr); i++)
     {
         if (bufr[i] != ' ')
@@ -928,6 +995,7 @@ void initFs()
     close(fd);
     count = 0;
     k = 0;
+
 
     /* init password */
     fd = open("myUsersPassword", O_RDWR);
@@ -1047,40 +1115,59 @@ void createFolder(char* filepath,int flag)
 		addLog(filepath);
 }
 
-/* Create File */
-void createFile(char *filepath, char *buf, int flag)
-{
-    int fd = -1, i = 0, pos;
-    pos = getPos();
-    char f[7];
-    strcpy(f, "empty");
-    f[5] = '0' + pos;
-    f[6] = '\0';
-    if (strcmp(files[pos], f) == 0 && flag == 1)
-    {
-        unlink(files[pos]);
-    }
+/* old Create File */
+// void old_createFile(char *filepath, char *buf, int flag)
+// {
+//     int fd = -1, i = 0, pos;
+//     pos = getPos();
+//     char f[7];
+//     strcpy(f, "empty");
+//     f[5] = '0' + pos;
+//     f[6] = '\0';
+//     if (strcmp(files[pos], f) == 0 && flag == 1)
+//     {
+//         unlink(files[pos]);
+//     }
 
-    fd = open(filepath, O_CREAT | O_RDWR);
-    printf("file name: %s content: %s\n", filepath, buf);
+//     fd = open(filepath, O_CREAT | O_RDWR);
+//     printf("file name: %s content: %s\n", filepath, buf);
+//     if (fd == -1)
+//     {
+//         printf("Fail, please check and try again!!\n");
+//         return;
+//     }
+//     if (fd == -2)
+//     {
+//         printf("Fail, file exsists!!\n");
+//         return;
+//     }
+//     //printf("%s\n", buf);
+
+//     write(fd, buf, strlen(buf));
+//     close(fd);
+
+//     /* add log */
+//     if (flag == 1)
+//         addLog(filepath);
+// }
+
+void CreateFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    int fd = open(absoPath, O_CREAT | O_RDWR);
+
     if (fd == -1)
     {
-        printf("Fail, please check and try again!!\n");
+        printf("Failed to create a new file with name %s\n", file);
         return;
     }
-    if (fd == -2)
-    {
-        printf("Fail, file exsists!!\n");
-        return;
-    }
-    //printf("%s\n", buf);
 
-    write(fd, buf, strlen(buf));
+    char buf[1] = {0};
+    write(fd, buf, 1);
+    printf("File created: %s (fd %d)\n", file, fd);
     close(fd);
-
-    /* add log */
-    if (flag == 1)
-        addLog(filepath);
 }
 
 /*Get into the fold*/
@@ -1182,6 +1269,43 @@ void editAppand(char *filepath, char *buf)
     close(fd);
 }
 
+/* new Edit File Appand */
+void new_editAppand(char *path, char *file, char *buf)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    if (vertify() == 0)
+        return;
+
+    int fd = -1;
+    int n, i = 0;
+    char bufr[1024] = "";
+    char empty[1024];
+
+    for (i = 0; i < 1024; i++)
+        empty[i] = '\0';
+    fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+    {
+        printf("Fail, please check and try again!!\n");
+        return;
+    }
+
+    n = read(fd, bufr, 1024);
+    n = strlen(bufr);
+
+    for (i = 0; i < strlen(buf); i++, n++)
+    {
+        bufr[n] = buf[i];
+        bufr[n + 1] = '\0';
+    }
+    write(fd, empty, 1024);
+    fd = open(absoPath, O_RDWR);
+    write(fd, bufr, strlen(bufr));
+    close(fd);
+}
+
 /* Edit File Cover */
 void editCover(char *filepath, char *buf)
 {
@@ -1198,12 +1322,40 @@ void editCover(char *filepath, char *buf)
         empty[i] = '\0';
 
     fd = open(filepath, O_RDWR);
-    //printf("%d",fd);
+    printf("%d\n",fd);
     if (fd == -1)
         return;
     write(fd, empty, 1024);
     close(fd);
     fd = open(filepath, O_RDWR);
+    write(fd, buf, strlen(buf));
+    close(fd);
+}
+
+/* new Edit File Cover */
+void new_editCover(char *path, char *file, char *buf)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+
+    if (vertify() == 0)
+        return;
+
+    int fd = -1;
+    int n, i = 0;
+    char bufr[1024] = "";
+    char empty[1024];
+
+    for (i = 0; i < 1024; i++)
+        empty[i] = '\0';
+
+    fd = open(absoPath, O_RDWR);
+    // printf("%d\n",fd);
+    if (fd == -1)
+        return;
+    write(fd, empty, 1024);
+    close(fd);
+    fd = open(absoPath, O_RDWR);
     write(fd, buf, strlen(buf));
     close(fd);
 }
@@ -1478,8 +1630,8 @@ void pathFilter(char* bufr)
 	}
 }
 
-/* Ls */
-void ls()
+/* old Ls */
+void old_ls()
 {
 	int fd = -1, n;
 	char bufr[1024];
@@ -1509,6 +1661,21 @@ void ls()
 	}
 	else
 		printf("Permission deny!\n");
+}
+
+/* ls */
+int ls(char* pathName)  // 传入当前目录，发送当前目录下的文件名
+{
+    MESSAGE msg;
+    msg.type = LS;  // ls类型的消息（这个说法怪怪的）
+
+    msg.PATHNAME = (void*)pathName;
+    msg.NAME_LEN = strlen(pathName);
+    msg.FLAGS = 0;
+
+    send_recv(BOTH, TASK_FS, &msg);
+
+    return msg.RETVAL;
 }
 
 /* Show Process */
@@ -2050,3 +2217,106 @@ int win(){
 	else return 0;
 }
 
+void GoDir(char* path, char* file)
+{
+    int flag = 0;  // 判断是进入下一级目录还是返回上一级目录
+    char newPath[512] = {0};
+    if (file[0] == '.' && file[1] == '.')  // cd ..返回上一级目录
+    {
+        flag = 1;
+        int pos_path = 0;
+        int pos_new = 0;
+        int i = 0;
+        char temp[128] = {0};  // 用于存放某一级目录的名称
+        while (path[pos_path] != 0)
+        {
+            if (path[pos_path] == '/')
+            {
+                pos_path++;
+                if (path[pos_path] == 0)  // 已到达结尾
+                    break;
+                else
+                {
+                    temp[i] = '/';
+                    temp[i + 1] = 0;
+                    i = 0;
+                    while (temp[i] != 0)
+                    {
+                        newPath[pos_new] = temp[i];
+                        temp[i] = 0;  // 抹掉
+                        pos_new++;
+                        i++;
+                    }
+                    i = 0;
+                }
+            }
+            else
+            {
+                temp[i] = path[pos_path];
+                i++;
+                pos_path++;
+            }
+        }
+    }
+    char absoPath[512];
+    char temp[512];
+    int pos = 0;
+    while (file[pos] != 0)
+    {
+        temp[pos] = file[pos];
+        pos++;
+    }
+    temp[pos] = '/';
+    temp[pos + 1] = 0;
+    if (flag == 1)  // 返回上一级目录
+    {
+        temp[0] = 0;
+        convert_to_absolute(absoPath, newPath, temp);
+    }
+    else  // 进入下一级目录
+        convert_to_absolute(absoPath, path, temp);
+
+    // printf("%s\n", absoPath);
+
+    int fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+        printf("%s is not a directory!\n", absoPath);
+    else
+        memcpy(path, absoPath, 512);
+}
+
+
+void DeleteFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int m=unlink(absoPath);
+    if (m == 0)
+        printf("%s deleted!\n", file);
+    else
+        printf("Failed to delete %s!\n", file);
+}
+
+void ReadFile(char* path, char* file)
+{
+    char absoPath[512];
+    convert_to_absolute(absoPath, path, file);
+    int fd = open(absoPath, O_RDWR);
+    if (fd == -1)
+    {
+        printf("Failed to open %s!\n", file);
+        return;
+    }
+
+    char buf[4096];
+    int n = read(fd, buf, 4096);
+    if (n == -1)  // 读取文件内容失败
+    {
+        printf("An error has occured in reading the file!\n");
+        close(fd);
+        return;
+    }
+
+    printf("%s\n", buf);
+    close(fd);
+}

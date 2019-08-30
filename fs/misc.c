@@ -99,9 +99,14 @@ PUBLIC int search_file(char * path)
 	char filename[MAX_PATH];
 	memset(filename, 0, MAX_FILENAME_LEN);
 	struct inode * dir_inode;
-	if (strip_path(filename, path, &dir_inode) != 0)
-		return 0;
 
+	int val = strip_path(filename, path, &dir_inode);
+
+	// printl("strip_paht value is %d\n", val);
+
+	if (val != 0)
+		return 0;
+	// printl("i get here\n");
 	if (filename[0] == 0)	/* path: "/" */
 		return dir_inode->i_num;
 
@@ -164,30 +169,120 @@ PUBLIC int search_file(char * path)
  * 
  * @return Zero if success, otherwise the pathname is not valid.
  *****************************************************************************/
+// PUBLIC int strip_path(char * filename, const char * pathname,
+// 		      struct inode** ppinode)
+// {
+// 	const char * s = pathname;
+// 	char * t = filename;
+
+// 	if (s == 0)
+// 		return -1;
+
+// 	if (*s == '/')
+// 		s++;
+
+// 	while (*s) {		/* check each character */
+// 		if (*s == '/')
+// 			return -1;
+// 		*t++ = *s++;
+// 		/* if filename is too long, just truncate it */
+// 		if (t - filename >= MAX_FILENAME_LEN)
+// 			break;
+// 	}
+// 	*t = 0;
+
+// 	*ppinode = root_inode;
+
+// 	return 0;
+// }
 PUBLIC int strip_path(char * filename, const char * pathname,
 		      struct inode** ppinode)
 {
-	const char * s = pathname;
-	char * t = filename;
+    const char * s = pathname;
+    char * t = filename;
+	// printl("strip_path(): pathname: %s\n", pathname);
+	// printl("strip_path(): filename: %s\n", filename);
 
 	if (s == 0)
-		return -1;
+        return -1;
 
-	if (*s == '/')
-		s++;
+    if (*s == '/')
+        s++;
 
-	while (*s) {		/* check each character */
-		if (*s == '/')
-			return -1;
-		*t++ = *s++;
-		/* if filename is too long, just truncate it */
-		if (t - filename >= MAX_FILENAME_LEN)
-			break;
-	}
-	*t = 0;
+    struct inode *pinode_now = root_inode, *ptemp;
+    struct dir_entry * pde;
+    int dir_blk0_nr, nr_dir_blks, nr_dir_entries, m;
+    int i, j;
 
-	*ppinode = root_inode;
+    while(*s){
+		// printl("strip_path(): s is %s\n", s);
+        if(*s == '/'){
+            int flag = 0;
+            dir_blk0_nr = pinode_now->i_start_sect;
+            nr_dir_blks = (pinode_now->i_size + SECTOR_SIZE - 1) / SECTOR_SIZE;
+            nr_dir_entries = pinode_now->i_size / DIR_ENTRY_SIZE; 
 
-	return 0;
+			// printl("inode num is %d\n", pinode_now->i_num);
+			// printl("nr_dir_entries is %d\n", nr_dir_entries);
+
+            m = 0;
+            pde = 0;
+            *t = 0;
+            for (i = 0; i < nr_dir_blks && flag==0; i++) 
+            {
+                RD_SECT(pinode_now->i_dev, dir_blk0_nr + i);
+                pde = (struct dir_entry *)fsbuf;
+                for (j = 0; j < SECTOR_SIZE / DIR_ENTRY_SIZE; j++,pde++) 
+                {
+                    if (strcmp(filename, pde->name) == 0)
+                    {
+                        ptemp = get_inode(pinode_now->i_dev, pde->inode_nr);
+                        if(ptemp->i_mode == I_DIRECTORY)
+                        {
+                            put_inode(pinode_now);
+                            pinode_now = ptemp;
+                            flag = 1;
+                            break;
+                        }
+                    }
+					// printl("m is %d\n", m);
+                    // if (++m > nr_dir_entries)
+					// {
+						
+					// 	printl("place 1 and m is %d ---- nr_dir_entries is %d\n", m, nr_dir_entries);
+					// 	return -1;
+					// }
+                        
+                }
+                if (m > nr_dir_entries || flag==0) 
+				{
+					// printl("place 2\n");
+					return -1;
+				}
+                    
+            }
+            if(flag == 0)
+			{
+				// printl("place 3\n");
+				return -1;
+			}
+               
+            t = filename;
+
+            s++;
+        }
+        else
+        {
+            *t++ = *s++;
+            if (t - filename >= MAX_FILENAME_LEN)
+                break;
+        }
+    }
+
+    *t = 0;
+    *ppinode = pinode_now;
+    return 0;
 }
+
+
 

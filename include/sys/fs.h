@@ -78,6 +78,9 @@ struct inode {
 	u32	i_start_sect;	/**< The first sector of the data */
 	u32	i_nr_sects;	/**< How many sectors the file occupies */
 	u8	_unused[16];	/**< Stuff for alignment */
+	
+	u32 i_node_length;            /**< sect lenghth */
+	u32 i_sects_pos[20];         /**< sect pos array */
 
 	/* the following items are only present in memory */
 	int	i_dev;
@@ -99,7 +102,7 @@ struct inode {
  * @brief Max len of a filename
  * @see   dir_entry
  */
-#define	MAX_FILENAME_LEN	12
+#define	MAX_FILENAME_LEN	11
 
 /**
  * @struct dir_entry
@@ -108,6 +111,7 @@ struct inode {
 struct dir_entry {
 	int	inode_nr;		/**< inode nr. */
 	char	name[MAX_FILENAME_LEN];	/**< Filename */
+	char type;
 };
 
 /**
@@ -125,7 +129,7 @@ struct dir_entry {
 struct file_desc {
 	int		fd_mode;	/**< R or W */
 	int		fd_pos;		/**< Current position for R/W. */
-	int		fd_cnt;		/**< How many procs share this desc */
+    int     fd_cnt;     /**< How many procs share this desc */
 	struct inode*	fd_inode;	/**< Ptr to the i-node */
 };
 

@@ -170,7 +170,7 @@ enum msgtype {
 	GET_TICKS, GET_PID, GET_RTC_TIME,
 
 	/* FS */
-	OPEN, CLOSE, READ, WRITE, LSEEK, STAT, UNLINK,
+	OPEN, CLOSE, READ, WRITE, LSEEK, STAT, UNLINK, LS, MKDIR,
 
 	/* FS & TTY */
 	SUSPEND_PROC, RESUME_PROC,
@@ -189,7 +189,10 @@ enum msgtype {
 	DEV_CLOSE,
 	DEV_READ,
 	DEV_WRITE,
-	DEV_IOCTL
+	DEV_IOCTL,
+
+	/* for debug */
+	DISK_LOG
 };
 
 /* macros for messages */
