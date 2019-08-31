@@ -3,11 +3,9 @@
 main.c
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Forrest Yu, 2005
-Yakang Li, 2018
-Jinrong Huang, 2018
-Dinghow Yang, 2018
-
-Shi Chenghang 2019/08
+Chenghang Shi, 2019/08
+Liang Wang, 2019/08
+Hua Jiang, 2019/08
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include "type.h"
@@ -471,65 +469,42 @@ void shabby_shell(const char *tty_name)
                 }
                 else if (strcmp(cmd, "mkfile") == 0||strcmp(cmd, "touch")==0)
                 {
-                    // createFilepath(arg1);
-                    // createFile(filepath, arg2, 1);
-                    // clearArr(filepath, 128);
                     CreateFile(current_dirr, arg1);
                 }
 		else if(strcmp(cmd, "mkdir") == 0)
 		{
-			// createFilepath(strcat(arg1,"*"));
-			// createFolder(filepath, 1);
-			// clearArr(filepath, 128);
-
             CreateDir(current_dirr, arg1);
 		}
 		else if (strcmp(cmd, "cd") == 0) 
 		{
-			// createFilepath(arg1);
-			// openFolder(filepath,arg1);
             GoDir(current_dirr, arg1);
 		}
                 else if (strcmp(cmd, "rd") == 0)
                 {
-                    // createFilepath(arg1);
-                    // readFile(filepath);
-                    // clearArr(filepath, 128);
                     ReadFile(current_dirr, arg1);
                 }
                 else if (strcmp(cmd, "vi") == 0)
                 {
-                  //  createFilepath(arg1);
                     textPad(current_dirr, arg1);
-                   // clearArr(filepath, 128);
                 }
                 /* edit a file appand */
                 else if (strcmp(cmd, "wt+") == 0)
                 {
-                    // createFilepath(arg1);
                     new_editAppand(current_dirr, arg1, arg2);
-                    // clearArr(filepath, 128);
                 }
                 /* edit a file cover */
                 else if (strcmp(cmd, "wt") == 0)
                 {
-                    // createFilepath(arg1);
                     new_editCover(current_dirr, arg1, arg2);
-                    // clearArr(filepath, 128);
                 }
                 /* delete a file */
                 else if (strcmp(cmd, "del") == 0)
                 {
-                    // createFilepath(arg1);
-                    // deleteFile(filepath);
-                    // clearArr(filepath, 128);
                     DeleteFile(current_dirr, arg1);
                 }
                 /* ls */
                 else if (strcmp(cmd, "ls") == 0)
                 {
-                    // ls();
-                    // printf("%s\n", current_dirr);
                     ls(current_dirr);
                 }
                 else if (strcmp(cmd, "proc") == 0)
@@ -555,8 +530,7 @@ void shabby_shell(const char *tty_name)
                 else if (strcmp(cmd, "tictactoe") == 0||strcmp(cmd, "ttt")==0)
                 {
                     main_tic();
-                    // printf("ttt?\n");
-                    // main_ttt();
+
                 }
 		else if(strcmp(cmd, "boom") == 0)
 		{
@@ -1838,396 +1812,6 @@ PUBLIC void panic(const char *fmt, ...)
     /* should never arrive here */
     __asm__ __volatile__("ud2");
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-File system
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Yakang Li, 2018
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-// #include<stdio.h> 
-
-// #define SIZE 3
-
-// char scane[SIZE][SIZE]={'*','*','*','*','*','*','*','*','*'};
-// int grade[SIZE][SIZE]={50,10,50,10,100,10,50,10,50};
-
-// void AI_input(int x,int y);
-// void display();
-// int check();
-// int main_tic()
-// {
-// 	printf("Welcome Tictactoe, input q to quit game\n");
-// 	int result=0;
-// 	display();
-// 	for(int i=0;i<5;i++)
-// 	{
-// 		printf("Please input(x y):");
-// 		char input[4];
-// 		for(int i=0;i<4;i++)
-// 		{
-// 		    input[i]=0;	
-
-// 		}
-// 		char x,y;
-// 		//scanf("%d,%d",&x,&y);
-// 		int r=read(0,input,4);
-// 		input[r]=0;
-// 		x=input[0]-48;
-// 		y=input[2]-48;
-	
-// 		if(x+48=='q'){
-// 		   printf("Game Over\n"); 
-// 		   return 0;
-		    
-// 		}
-// 		while(1){
-// 			if(x>0&&x<4&&y>0&&y<4&&(scane[x-1][y-1]=='*')) break;
-// 			else {
-// 				printf("Error,input again:");
-// 				int r=read(0,input,4);
-// 				input[r]=0;
-// 				x=input[0]-48;
-// 				y=input[2]-48;
-// 				if(x+48=='q'){
-// 		   		    printf("Game Over\n"); 
-// 		   		    return 0;
-		    
-// 				}
-// 			}
-// 		}
-// 		scane[x-1][y-1]='o';
-// 		grade[x-1][y-1]=4;
-		
-// 		if(check()==1){
-// 			printf("You win\n");
-// 			result=1;
-// 			break;
-// 		}
-	
-// 		if(i!=4) AI_input(x-1,y-1);
-		
-// 		if(check()==2){
-// 			printf("You lose\n");
-// 			result=1;
-// 			break;
-// 		}
-// 		display();
-// 	}
-// 	if(result==0) printf("Equal\n");
-// 	return 0;
-// }
-
-// void display()
-// {
-// 	for(int i=0;i<SIZE;i++)
-// 	{
-// 		for(int j=0;j<SIZE;j++)
-// 		{
-// 			printf("%c ",scane[i][j]);
-// 		}
-// 		printf("\n");
-// 	}
-// }
-
-// void AI_input(int x,int y)
-// {	
-// 	int grade_sum[8];
-// 	grade_sum[0]=grade[0][0]+grade[0][1]+grade[0][2];
-// 	grade_sum[1]=grade[1][0]+grade[1][1]+grade[1][2];
-// 	grade_sum[2]=grade[2][0]+grade[2][1]+grade[2][2];
-// 	grade_sum[3]=grade[0][0]+grade[1][0]+grade[2][0];
-// 	grade_sum[4]=grade[0][1]+grade[1][1]+grade[2][1];
-// 	grade_sum[5]=grade[0][2]+grade[1][2]+grade[2][2];
-// 	grade_sum[6]=grade[0][0]+grade[1][1]+grade[2][2];
-// 	grade_sum[7]=grade[0][2]+grade[1][1]+grade[2][0];
-// 	for(int i=0;i<8;i++){
-// 		if(grade_sum[i]%10==8){
-// 			if(i==0){
-// 				if(grade[0][0]%10==0){
-// 					grade[0][0]=2;
-// 					scane[0][0]='x';
-// 				}
-// 				else if(grade[0][1]%10==0){
-// 					grade[0][1]=2;
-// 					scane[0][1]='x';
-// 				}
-// 				else if(grade[0][2]%10==0){
-// 					grade[0][2]=2;
-// 					scane[0][2]='x';
-// 				}
-// 			}
-// 			else if(i==1){
-// 				if(grade[1][0]%10==0){
-// 					grade[1][0]=1;
-// 					scane[1][0]='x';
-// 				}
-// 				else if(grade[1][1]%10==0){
-// 					grade[1][1]=1;
-// 					scane[1][1]='x';
-// 				}
-// 				else if(grade[1][2]%10==0){
-// 					grade[1][2]=1;
-// 					scane[1][2]='x';
-// 				}
-// 			}
-// 			else if(i==2){
-// 				if(grade[2][0]%10==0){
-// 					grade[2][0]=1;
-// 					scane[2][0]='x';
-// 				}
-// 				else if(grade[2][1]%10==0){
-// 					grade[2][1]=1;
-// 					scane[2][1]='x';
-// 				}
-// 				else if(grade[2][2]%10==0){
-// 					grade[2][2]=1;
-// 					scane[2][2]='x';
-// 				}
-// 			}
-// 			else if(i==3){
-// 				if(grade[0][0]%10==0){
-// 					grade[0][0]=1;
-// 					scane[0][0]='x';
-// 				}
-// 				else if(grade[1][0]%10==0){
-// 					grade[1][0]=1;
-// 					scane[1][0]='x';
-// 				}
-// 				else if(grade[2][0]%10==0){
-// 					grade[2][0]=1;
-// 					scane[2][0]='x';
-// 				}
-// 			}
-// 			else if(i==4){
-// 				if(grade[0][1]%10==0){
-// 					grade[0][1]=1;
-// 					scane[0][1]='x';
-// 				}
-// 				else if(grade[1][1]%10==0){
-// 					grade[1][1]=1;
-// 					scane[1][1]='x';
-// 				}
-// 				else if(grade[2][1]%10==0){
-// 					grade[2][1]=1;
-// 					scane[2][1]='x';
-// 				}
-// 			}
-// 			else if(i==5){
-// 				if(grade[0][2]%10==0){
-// 					grade[0][2]=1;
-// 					scane[0][2]='x';
-// 				}
-// 				else if(grade[1][2]%10==0){
-// 					grade[1][2]=1;
-// 					scane[1][2]='x';
-// 				}
-// 				else if(grade[2][2]%10==0){
-// 					grade[2][2]=1;
-// 					scane[2][2]='x';
-// 				}
-// 			}
-// 			else if(i==6){
-// 				if(grade[0][0]%10==0){
-// 					grade[0][0]=1;
-// 					scane[0][0]='x';
-// 				}
-// 				else if(grade[1][1]%10==0){
-// 					grade[1][1]=1;
-// 					scane[1][1]='x';
-// 				}
-// 				else if(grade[2][2]%10==0){
-// 					grade[2][2]=1;
-// 					scane[2][2]='x';
-// 				}
-// 			}
-// 			else if(i==7){
-// 				if(grade[0][2]%10==0){
-// 					grade[0][2]=1;
-// 					scane[0][2]='x';
-// 				}
-// 				else if(grade[1][1]%10==0){
-// 					grade[1][1]=1;
-// 					scane[1][1]='x';
-// 				}
-// 				else if(grade[2][0]%10==0){
-// 					grade[2][0]=1;
-// 					scane[2][0]='x';
-// 				}
-// 			}
-// 			return;
-// 		}
-// 	}
-	
-// 	int max=0;
-// 	int max_x;
-// 	int max_y;
-// 	for(int i=0;i<SIZE;i++)
-// 	{
-// 		for(int j=0;j<SIZE;j++)
-// 		{
-// 			if(grade[i][j]>max){
-// 				max=grade[i][j];
-// 				max_x=i;
-// 				max_y=j;
-// 			} 
-// 		}
-		
-// 	}
-// 	grade[max_x][max_y]=1;
-// 	scane[max_x][max_y]='x';
-// }
-
-// int check()
-// {
-// 	int grade_sum[8];
-// 	grade_sum[0]=grade[0][0]+grade[0][1]+grade[0][2];
-// 	grade_sum[1]=grade[1][0]+grade[1][1]+grade[1][2];
-// 	grade_sum[2]=grade[2][0]+grade[2][1]+grade[2][2];
-// 	grade_sum[3]=grade[0][0]+grade[1][0]+grade[2][0];
-// 	grade_sum[4]=grade[0][1]+grade[1][1]+grade[2][1];
-// 	grade_sum[5]=grade[0][2]+grade[1][2]+grade[2][2];
-// 	grade_sum[6]=grade[0][0]+grade[1][1]+grade[2][2];
-// 	grade_sum[7]=grade[0][2]+grade[1][1]+grade[2][0];
-// 	for(int i=0;i<8;i++)
-// 	{
-// 		if(grade_sum[i]==12) return 1;
-// 		else if(grade_sum[i]==3) return 2;
-// 		else return 0;
-// 	}
-// }
-
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Boom
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Yakang Li, 2018
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-// char map_hidden[9][9]={
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// '*','*','*','*','*','*','*','*','*',
-// };
-
-
-
-// void show_map();
-// int win();
-
-// int mainboom()
-// {
-// 	int i,j;
-// 	for(i=0;i<9;i++){
-// 		for(j=0;j<9;j++){
-// 			map_hidden[i][j]='*';
-// 		}
-// 	}
-// 	char map[9][9]={
-// 	'X','2','1','1','1','1','1','X','1',
-// 	'2','X','2','3','X','2','2','2','2',
-// 	'1','2','X','3','X','3','2','X','1',
-// 	'1','2','3','3','3','3','X','3','2',
-// 	'1','X','2','X','3','X','3','3','X',
-// 	'1','1','3','3','X','3','X','2','1',
-// 	'1','2','2','X','3','3','3','3','2',
-// 	'X','3','X','3','3','X','3','X','X',
-// 	'2','X','3','X','2','1','3','X','3',
-// 	};
-// 	printf("Welcome to minesweep!\n");
-// 	show_map();
-	
-// 	while(1){
-// 		printf("Please input(x y):");
-// 		char input[4];
-// 		for(int i=0;i<4;i++)
-// 		{
-// 		    input[i]=0;	
-
-// 		}
-// 		char x,y;
-// 		//scanf("%d,%d",&x,&y);
-// 		int r=read(0,input,4);
-// 		input[r]=0;
-// 		x=input[0]-48;
-// 		y=input[2]-48;
-		
-// 		if(x+48=='q'){
-// 		   printf("Game Over\n"); 
-// 		   return 0;
-		    
-// 		}
-// 		while(1){
-// 			if(x>0&&x<=9&&y>0&&y<=9&&map_hidden[x-1][y-1]=='*') break;
-// 			else{
-// 				printf("Error,please input again:");
-// 				int r=read(0,input,4);
-// 				input[r]=0;
-// 				x=input[0]-48;
-// 				y=input[2]-48;
-		
-// 				if(x+48=='q'){
-// 				   printf("Game Over\n"); 
-// 				   return 0;
-				    
-// 				}
-// 			}
-// 		}
-		
-// 		int m=x-1;
-// 		int n=y-1;
-		
-// 		if(map[m][n]=='X'){
-// 			printf("Game Over!\n");
-// 			return 0;
-// 		}
-// 		int i,j; 
-// 		for(i=m-1;i<x+1;i++){
-// 			if(i>=0&&i<=8){
-// 				for(j=n-1;j<y+1;j++){
-// 					if(j>=0&&j<=8){
-// 						if(map[i][j]!='X')map_hidden[i][j]=map[i][j];
-// 					}
-// 				}
-// 			}
-			
-// 		}
-// 		show_map();
-// 		if(win()){
-// 			printf("You Win!\n");
-// 			break;
-// 		}
-// 	}
-// 	return 0;
-// }
-
-// void show_map()
-// {
-// 	int i,j;
-// 	for(i=0;i<9;i++){
-// 		for(j=0;j<9;j++){
-// 			printf("%c ",map_hidden[i][j]);
-// 		}
-// 		printf("\n");
-// 	}
-// }
-
-// int win(){
-// 	int sum=0;
-// 	int i,j;
-// 	for(i=0;i<9;i++){
-// 		for(j=0;j<9;j++){
-// 			if(map_hidden[i][j]=='*') sum++;
-// 		}
-// 	}
-// 	if(sum==23) return 1;
-// 	else return 0;
-// }
 
 void GoDir(char* path, char* file)
 {
